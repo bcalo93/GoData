@@ -1,1 +1,2 @@
-# 156852-167011-170549
+# Autores: Brahian Calo - Ramiro Gonzalez
+# Numeros de estudiante: 170549 - 167011
