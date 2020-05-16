@@ -1,11 +1,4 @@
-
 module.exports = (data) => { 
-    
-    
-    
-    
-    
-    
     return {
         SUMMONS_NUMBER:                 data[0],
         PLATE_ID:                       data[1],
