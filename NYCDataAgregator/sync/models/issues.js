@@ -7,7 +7,7 @@ module.exports = (types, sequelize) =>
                 autoIncrement: true,
             },
             SUMMONS_NUMBER: {
-                type: types.INTEGER,
+                type: types.BIGINT,
                 allowNull: false,
                 unique: true
             },
