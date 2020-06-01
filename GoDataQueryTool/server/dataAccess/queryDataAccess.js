@@ -8,30 +8,37 @@ module.exports = class QueryDataAccess {
     }
 
     async issuesYearReport(request) {
-        return await 
-            this.issueYearRepository
-                .find({ 
-                    year: request.year 
-                }).exec();
+        const year = request.year;
+        return await this.issueYearRepository.find({ year }).exec();
     }
 
     async issuesCodesReport(request) {
-        return await 
-            this.issueCodesRepository
-            .find({ 
-                from: request.from, 
-                to: request.to, 
-                codes: request.codes 
-            }).exec();
+        const from = request.from;
+        const to = request.to;
+        const codes = request.codes;
+        const criteria =  {
+            violationCode: { $in: codes }, 
+            "issues.date": {
+                    $gte: from,
+                    $lte: to
+                }
+            };
+        return await this.issueCodesRepository.find(criteria).exec();
     }
 
     async issuesStatesReport(request) {
-        return await 
-            this.issueStatesRepository
-            .find({ 
-                from: request.from, 
-                to: request.to,  
-                states: request.states 
-            }).exec();
+        const from = request.from;
+        const to = request.to;
+        const states = request.states;
+        const criteria =  {
+            registrationState: { $in: states }, 
+            "issues.date": {
+                    $gte: from,
+                    $lte: to
+                }
+            };
+        return await this.issueStatesRepository.find(criteria).exec();
     }
+
+    
 }
