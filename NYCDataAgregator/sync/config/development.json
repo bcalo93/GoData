@@ -1,6 +1,6 @@
 {
   "repository": {
-    "name": "NYCDataAggregator",
+    "name": "NYCDataAgregator",
     "credentials": {
       "user": "root",
       "pass": "password"
