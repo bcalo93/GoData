@@ -1,0 +1,1 @@
+db.getCollection('issuesyears').update({ year: "2020", "months.month": "1"}, { $inc: { "months.$.count": -2 } })
