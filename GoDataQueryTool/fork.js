@@ -1,0 +1,11 @@
+var { fork } = require('child_process');
+fork('./insertMongoDb.js', []).on('message', result => console.log('Done.', result));
+fork('./insertMongoDb.js', []).on('message', result => console.log('Done.', result));
+fork('./insertMongoDb.js', []).on('message', result => console.log('Done.', result));
+fork('./insertMongoDb.js', []).on('message', result => console.log('Done.', result));
+fork('./insertMongoDb.js', []).on('message', result => console.log('Done.', result));
+fork('./insertMongoDb.js', []).on('message', result => console.log('Done.', result));
+fork('./insertMongoDb.js', []).on('message', result => console.log('Done.', result));
+fork('./insertMongoDb.js', []).on('message', result => console.log('Done.', result));
+fork('./insertMongoDb.js', []).on('message', result => console.log('Done.', result));
+fork('./insertMongoDb.js', []).on('message', result => console.log('Done.', result));
