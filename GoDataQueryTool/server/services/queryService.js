@@ -21,17 +21,25 @@ module.exports = class QueryService {
 
     async executeIssuesCodesReport(request) {
         console.log('executeIssuesCodesReport', request);
-        let from = request.from;
-        let to = request.to;
-        let codes = request.codes || [];
-        if (from && to) return await this.queryDataAccess.issuesCodesReport({ from, to, codes });
+        if (request.from && request.to) {
+            const from = this.parseToDate(request.from);
+            const to = this.parseToDate(request.to);
+            const codes = request.codes || [];
+            return await this.queryDataAccess.issuesCodesReport({ from, to, codes });
+        }
     }
 
     async executeIssuesStatesReport(request) {
         console.log('executeIssuesStatesReport', request);
-        let from = request.from;
-        let to = request.to;
-        let states = request.states || [];
-        if (from && to) return await this.queryDataAccess.issuesStatesReport({ from, to, states });
+        if (request.from && request.to) {
+            const from = this.parseToDate(request.from);
+            const to = this.parseToDate(request.to);
+            const states = request.states || [];
+            return await this.queryDataAccess.issuesStatesReport({ from, to, states });
+        }
+    }
+
+    parseToDate(date) {
+        return new Date(date).toISOString();
     }
 }
