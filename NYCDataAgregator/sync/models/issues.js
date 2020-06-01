@@ -1,15 +1,10 @@
 module.exports = (types, sequelize) =>
     sequelize.define(
-        'issues', {
-            id: {
-                type: types.INTEGER,
-                primaryKey: true,
-                autoIncrement: true,
-            },
+        'Issues', {
             SUMMONS_NUMBER: {
-                type: types.INTEGER,
+                type: types.BIGINT,
                 allowNull: false,
-                unique: true
+                primaryKey: true,
             },
             PLATE_ID: {
                 type: types.STRING,
@@ -181,6 +176,6 @@ module.exports = (types, sequelize) =>
             }
         }, 
         {
-            timestamps: true,
+            timestamps: false,
         },
     )
