@@ -2,7 +2,7 @@
   "name": "repositories",
   "version": "1.0.0",
   "description": "",
-  "main": "queryRepository.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -12,6 +12,8 @@
     "config": "^3.3.1",
     "mongoose": "^5.9.16",
     "mongoose-long": "^0.3.0",
-    "mongoose-unique-validator": "^2.0.3"
+    "mongoose-unique-validator": "^2.0.3",
+    "mysql2": "^2.1.0",
+    "sequelize": "^5.21.11"
   }
 }
