@@ -1,6 +1,6 @@
 module.exports = (types, sequelize) =>
     sequelize.define(
-        'issues', {
+        'Issues', {
             id: {
                 type: types.INTEGER,
                 primaryKey: true,

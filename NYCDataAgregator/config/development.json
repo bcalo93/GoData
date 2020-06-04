@@ -1,0 +1,23 @@
+{
+    "webapi": {
+        "port":3000
+    },
+    "consumer_repository":{
+        "type": "file-repository"
+    },
+    "file_repository": {
+        "path": "./consumers-repository/data/registered-consumers.json"
+    },
+    "issues_emmiter": {
+        "posts_quantity": 1,
+        "issues_per_query": 4500,
+        "offset": 9500200
+    },
+    "issues_repository": {
+        "name": "NYCDataAggregator",
+        "credentials": {
+        "user": "root",
+        "pass": "password"
+        }
+    }
+}
