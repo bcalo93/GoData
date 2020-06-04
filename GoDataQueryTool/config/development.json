@@ -1,4 +1,11 @@
 {
+  "write_repository": {
+    "name": "GoDataHistory",
+    "credentials": {
+      "user": "root",
+      "pass": "password"
+    }
+  },
   "query_repository": {
     "url": "mongodb://localhost:27017/go-data-query-tool"
   }
