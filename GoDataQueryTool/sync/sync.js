@@ -1,17 +1,22 @@
 const Queue = require('bull');
-const queue = new Queue('go-data-issues');
+const queueName = 'go-data-issues';
+const queue = new Queue(queueName);
 
 module.exports.start = async function () {
 
-    const Repository = require('./repository')
-    const IssueRepository = Repository.Issue;
 
-    console.log('Starting Dequeue item process....')     
 
-    // queue.process(4, async (job, done) => {
+    console.log(`Starting Dequeue item process from ${queueName}....`)     
+
     queue.process((job, done) => {
         try {        
             console.log(job.data);
+            const issues = job.data;
+            issues.forEach(issue => {
+                 //call to service
+            });
+            
+           
             done();
         } catch(err) {
             console.log(err);
