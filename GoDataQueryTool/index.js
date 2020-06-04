@@ -1,12 +1,11 @@
 const Server = require('./server/server');
-const QueryRepository = require('./repositories/queryRepository');
-const GoDataSync = require('./sync/sync')
-const Repository = require('../NYCDataAgregator/sync/repository')
+const { QueryRepository, WriteRepository } = require('./repositories');
+const GoDataSync = require('./sync/sync');
 
 (async () => {
     try {
-        await Repository.initRepository();
         await QueryRepository.initRepository();
+        await WriteRepository.initRepository();
         await Server.initServer();
         await GoDataSync.start();
     } catch (err) {
