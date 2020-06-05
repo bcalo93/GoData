@@ -8,5 +8,11 @@
   },
   "query_repository": {
     "url": "mongodb://localhost:27017/go-data-query-tool"
+  },
+  "queue_sync_go_data": {
+    "name": "go-data-issues"
+  },
+  "queue_sync_db": {
+    "name": "db_sync"
   }
 }
