@@ -1,23 +1,32 @@
 const IssueDataAccess = require('../dataAccess/issueDataAccess');
+const Queue = require('bull');
+const queueName = Config.get('queue_sync_db.name');
 
 module.exports = class IssueService {
     constructor() {
         this.issueDataAccess = new IssueDataAccess();
+        this.queue = new Queue(queueName);
     }
 
     async syncReadDatabase(issues) {
         const issuesToSync = [];
-        try{
+        try {
             for (let index = 0; index < issues.length; index++) {
                 const issue = issues[index];
-                if(this.validateIssue(issue)) {
-                    const formattedIssue = this.formatIssue(issue);
-                    //call data access
-                    //enqueue into syncDb queue
+                if (this.validateIssue(issue)) {
+                    console.log('IssueService.syncReadDatabase','Inserting issue ...');
+                    const insertedIssue = await this.issueDataAccess.save(issue);
+                    console.log('IssueService.syncReadDatabase', `Issue id: ${insertedIssue.id} inserted ...`);
+                    const formattedIssue = this.formatIssue(insertedIssue);
+                    issuesToSync.push(formattedIssue);
                 }
             }
+            if (issuesToSync.length !== 0) {
+                console.log('IssueService.syncReadDatabase',`Enqueuing ${issuesToSync.length} items into ...`)
+                this.queue.add(issuesToSync);
+            }
         } catch (err) {
-
+            console.log('IssueService.syncReadDatabase','Something went wrong ...')
         }
     }
 
@@ -38,7 +47,7 @@ module.exports = class IssueService {
                 return { 
                     registrationState: REGISTRATION_STATE, 
                     violationCode: VIOLATION_CODE, 
-                    issueDate: issueDate
+                    issueDate
                 };
             })(issue);
         if (!!formattedIssue) {
