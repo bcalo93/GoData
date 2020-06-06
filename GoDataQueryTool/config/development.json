@@ -13,6 +13,6 @@
     "name": "go-data-issues"
   },
   "queue_sync_db": {
-    "name": "db_sync"
+    "name": "db-sync"
   }
 }
