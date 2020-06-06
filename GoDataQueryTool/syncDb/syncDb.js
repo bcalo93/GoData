@@ -1,18 +1,19 @@
-const IssueService = require('./services/issueService');
 const Queue = require('bull');
 const Config = require('config');
-const queueName = Config.get('queue_sync_db.name');
-const queue = new Queue(queueName);
+const QUEUE_NAME = Config.get('queue_sync_db.name');
+const queue = new Queue(QUEUE_NAME);
+const IssueService = require('./services/issueService');
 
 module.exports.start = async function () {
 
-    console.log('syncDb', `Starting Dequeue item process from ${queueName}....`)     
+    console.log('syncDb.start', `Starting Dequeue item process from queue: \"${QUEUE_NAME}\"....`)     
 
-    queue.process((job, done) => {
+    queue.process(async (job, done) => {
         try {        
-            console.log(job.data);
+            console.log('syncDb.queue#process',`processing job id: ${job.id}`);
             const issues = job.data;
-            await IssueService.insertIntoQueryRepository(issues);
+            const issueService = new IssueService();
+            await issueService.insertIntoQueryRepository(issues);
             done();
         } catch(err) {
             console.log(err);
