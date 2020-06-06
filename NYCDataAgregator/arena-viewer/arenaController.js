@@ -9,6 +9,10 @@ const arena = Arena({
         {
             name: 'go-data-issues',
             hostId: 'local'
+        },
+        {
+            name: 'db-sync',
+            hostId: 'local'
         }
     ]
 });
