@@ -1,9 +1,7 @@
 const mongoose = require('mongoose');
-require('mongoose-long')(mongoose);
 
 const uniqueValidator = require('mongoose-unique-validator');
 const Schema = mongoose.Schema;
-const SchemaTypes = mongoose.Schema.Types;
 
 const issuesViolationCodesDateSchemma = Schema({
     id: {
@@ -17,13 +15,13 @@ const issuesViolationCodesDateSchemma = Schema({
         unique: true,
     },
     issues: [{
-        id: { 
-            type: SchemaTypes.Long, 
-            required: true
-        },
         date: {
             type: Date,
             required: true
+        },
+        count: {
+            type: Number,
+            required: true,
         }
     }]
 });
