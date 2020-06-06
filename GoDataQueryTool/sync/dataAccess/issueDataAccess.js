@@ -9,7 +9,7 @@ module.exports = class WriteDataAccess {
         try {
            return await this.issuesHistoryRepository.create(issue);
         } catch (err) {
-            throw new Error('Database connection error')
+            throw new Error('Database connection error\n'+ err)
         }
     }
 }
