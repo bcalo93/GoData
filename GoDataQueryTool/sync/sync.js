@@ -1,18 +1,20 @@
-const IssueService = require('./services/issueService');
 const Queue = require('bull');
 const Config = require('config');
-const queueName = Config.get('queue_sync_go_data.name');
-const queue = new Queue(queueName);
+const QUEUE_NAME = Config.get('queue_sync_go_data.name');
+const queue = new Queue(QUEUE_NAME);
+const IssueService = require('./services/issueService');
+
 
 module.exports.start = async function () {
 
-    console.log('sync',`Starting Dequeue item process from ${queueName}....`)     
+    console.log('sync.start',`Starting Dequeue item process from queue: \"${QUEUE_NAME}\"....`)     
 
-    queue.process((job, done) => {
+    queue.process(async (job, done) => {
         try {        
-            console.log(job.data);
+            console.log('sync.queue#process',`processing job id: ${job.id}`);
             const issues = job.data;
-            await IssueService.syncReadDatabase(issues);
+            const issueService = new IssueService();
+            await issueService.syncReadDatabase(issues);
             done();
         } catch(err) {
             console.log(err);
