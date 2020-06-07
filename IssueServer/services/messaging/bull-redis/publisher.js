@@ -5,11 +5,11 @@ const AbstractPublisher = require('../publisher'),
 module.exports = class Publisher extends AbstractPublisher {
     constructor(channel) {
         super(channel);
-        const redisOpts = config.get('redis_opts')
-        this.queue = new Queue(channel, redisOpts);
+        this.redisOpts = config.get('redis_opts')
+        this.queue = new Queue(channel, this.redisOpts);
     }
     async publish(message) {
-        console.log('Sending message to channel '+this.channel)
+        this.queue = new Queue(this.channel, this.redisOpts);
         await this.queue.add(message);
     }
 }

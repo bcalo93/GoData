@@ -11,5 +11,6 @@
         "port": 6379,
         "path": null,
         "enable_offline_queue": true
-    }
+    },
+    "recovery_chunk_size": 500
 }

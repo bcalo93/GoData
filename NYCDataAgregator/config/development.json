@@ -9,8 +9,8 @@
         "path": "./consumers-repository/data/registered-consumers.json"
     },
     "issues_emmiter": {
-        "posts_quantity": 10,
-        "issues_per_query": 30,
+        "posts_quantity": 1200,
+        "issues_per_query": 1,
         "offset": 1200345
     },
     "issues_repository": {
