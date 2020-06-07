@@ -9,9 +9,9 @@
         "path": "./consumers-repository/data/registered-consumers.json"
     },
     "issues_emmiter": {
-        "posts_quantity": 5,
-        "issues_per_query": 10,
-        "offset": 50
+        "posts_quantity": 90,
+        "issues_per_query": 300,
+        "offset": 1200345
     },
     "issues_repository": {
         "name": "NYCDataAggregator",

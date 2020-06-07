@@ -2,5 +2,14 @@
     "webapi": {
         "port":4000,
         "data_limit": "1000mb"
+    },
+    "messaging": "bull-redis",
+    "queue_name": "issues",
+    "issues_per_message": 10,
+    "redis_opts": {
+        "host": "127.0.0.1",
+        "port": 6379,
+        "path": null,
+        "enable_offline_queue": true
     }
 }
