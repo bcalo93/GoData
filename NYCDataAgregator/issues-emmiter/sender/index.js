@@ -34,9 +34,17 @@ module.exports = class Sender {
             
             while(issues.length >= quantityPerQuery) {
                 let chunk = issues.splice(0,quantityPerQuery)
-                console.log(`Sending [${quantityPerQuery}]`)
+                this.addTimestamp(chunk)
+                console.log(`Sending [${quantityPerQuery}] issues`)
                 await this.trySendData(chunk, consumer.endpoint)
             }
+        }
+    }
+
+    static addTimestamp(issues) {
+        let ts = Date.now()
+        for (let elem = 0; elem < issues.length; elem++) {
+            issues[elem][timeStampFieldName] = ts
         }
     }
 
@@ -45,7 +53,7 @@ module.exports = class Sender {
             await HttpService.postIssues(endpoint, issues)
             console.log(`POST sent`)
         } catch(err) {
-            console.log(`Error while trying to post data: ${err}`)
+            console.log(`Error while trying to post issues to ${endpoint}: ${err}`)
         }
     }
 
