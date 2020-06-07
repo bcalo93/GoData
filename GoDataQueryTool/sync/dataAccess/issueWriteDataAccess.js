@@ -1,6 +1,6 @@
 const WriteRepository = require('../../repositories/writeRepository');
 
-module.exports = class WriteDataAccess {
+module.exports = class IssueWriteDataAccess {
     constructor() {
         this.issuesHistoryRepository = WriteRepository.Issue;
     }
@@ -9,7 +9,7 @@ module.exports = class WriteDataAccess {
         try {
            return await this.issuesHistoryRepository.create(issue);
         } catch (err) {
-            throw new Error('Database connection error\n'+ err)
+            throw new Error(err)
         }
     }
 }

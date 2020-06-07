@@ -1,12 +1,12 @@
-const IssueDataAccess = require('../dataAccess/issueDataAccess');
+const IssueWriteDataAccess = require('../dataAccess/issueWriteDataAccess');
 const Queue = require('bull');
 const Config = require('config');
 const QUEUE_NAME = Config.get('queue_sync_db.name');
 const { parseToDate, isValidDate } = require('../../utils/dateUtils');
 
-module.exports = class IssueService {
+module.exports = class IssueWriteService {
     constructor() {
-        this.issueDataAccess = new IssueDataAccess();
+        this.issueWriteDataAccess = new IssueWriteDataAccess();
         console.log('sync.issueService', `Listening to queue: ${QUEUE_NAME}`);
         this.queue = new Queue(QUEUE_NAME);
     }
@@ -19,9 +19,8 @@ module.exports = class IssueService {
                 try {
                     if (this.validateIssue(issue)) {
                         console.log('IssueService.syncReadDatabase','Inserting issue ...');
-                        const insertedIssue = await this.issueDataAccess.save(issue);
-                        console.log('insertedIssue', insertedIssue);
-                        console.log('IssueService.syncReadDatabase', `Issue id: ${insertedIssue.id} inserted ...`);
+                        const insertedIssue = await this.issueWriteDataAccess.save(issue);
+                        console.log('IssueService.syncReadDatabase', `Issue id: ${insertedIssue.SUMMONS_NUMBER} inserted ...`);
                         const formattedIssue = this.formatIssue(insertedIssue);
                         issuesToSync.push(formattedIssue);
                     }
