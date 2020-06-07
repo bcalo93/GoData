@@ -9,8 +9,10 @@ module.exports = class QueryRepository {
         this.connection = await mongoose.connect(
             Config.get("query_repository.url"), {
                 useNewUrlParser: true,
+                useUnifiedTopology: true
             }
         );
+         mongoose.set('useCreateIndex', true)
     }
 
     static async loadCollections() {
