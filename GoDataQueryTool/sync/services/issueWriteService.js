@@ -7,7 +7,7 @@ const { parseToDate, isValidDate } = require('../../utils/dateUtils');
 module.exports = class IssueWriteService {
     constructor() {
         this.issueWriteDataAccess = new IssueWriteDataAccess();
-        console.log('sync.issueService', `Listening to queue: ${QUEUE_NAME}`);
+        console.log('sync.IssueWriteService', `Listening to queue: ${QUEUE_NAME}`);
         this.queue = new Queue(QUEUE_NAME);
     }
 
@@ -18,22 +18,22 @@ module.exports = class IssueWriteService {
                 const issue = issues[index];
                 try {
                     if (this.validateIssue(issue)) {
-                        console.log('IssueService.syncReadDatabase','Inserting issue ...');
+                        console.log('IssueWriteService.syncReadDatabase','Inserting issue ...');
                         const insertedIssue = await this.issueWriteDataAccess.save(issue);
-                        console.log('IssueService.syncReadDatabase', `Issue id: ${insertedIssue.SUMMONS_NUMBER} inserted ...`);
+                        console.log('IssueWriteService.syncReadDatabase', `Issue id: ${insertedIssue.SUMMONS_NUMBER} inserted ...`);
                         const formattedIssue = this.formatIssue(insertedIssue);
                         issuesToSync.push(formattedIssue);
                     }
                 } catch (err) {
-                    console.log('IssueService.syncReadDatabase',`Something went wrong when inserting ISSUE.SUMMONS_NUMBER ${issue.SUMMONS_NUMBER} ...\n`+err);
+                    console.log('IssueWriteService.syncReadDatabase',`Something went wrong when inserting ISSUE.SUMMONS_NUMBER ${issue.SUMMONS_NUMBER} ...\n`+err);
                 }
             }
             if (issuesToSync.length !== 0) {
-                console.log('IssueService.syncReadDatabase',`Enqueuing ${issuesToSync.length} items into ...`)
+                console.log('IssueWriteService.syncReadDatabase',`Enqueuing ${issuesToSync.length} items into ...`)
                 this.queue.add(issuesToSync);
             }
         } catch (err) {
-            console.log('IssueService.syncReadDatabase','Something went wrong ...\n'+err);
+            console.log('IssueWriteService.syncReadDatabase','Something went wrong ...\n'+err);
         }
     }
 

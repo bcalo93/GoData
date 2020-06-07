@@ -11,13 +11,13 @@ module.exports = class IssueQueryService {
             for (let index = 0; index < issues.length; index++) {
                 const issue = issues[index];
                 if (this.validateIssue(issue)) {
-                    console.log('IssueService.insertIntoQueryRepository','Inserting issue into documents...');
+                    console.log('IssueQueryService.insertIntoQueryRepository','Inserting issue into documents...');
                     const formattedIssue = this.formatIssue(issue);
                     await this.issueQueryDataAccess.persistIssueInDocuments(formattedIssue);
                 }
             }
         } catch (err) {
-            console.log('IssueService.insertIntoQueryRepository','Something went wrong ...\n'+err)
+            console.log('IssueQueryService.insertIntoQueryRepository','Something went wrong ...\n'+err)
         }
     }
 
