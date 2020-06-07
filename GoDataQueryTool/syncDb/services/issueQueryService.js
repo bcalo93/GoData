@@ -1,9 +1,9 @@
-const IssueDataAccess = require('../dataAccess/issueDataAccess');
-const { parseToDate, isValidDate } = require('../../utils/dateUtils');
+const IssueQueryDataAccess = require('../dataAccess/issueQueryDataAccess');
+const { parseToDate, isValidDate, getYearFromDate, getMonthFromDate } = require('../../utils/dateUtils');
 
-module.exports = class IssueService {
+module.exports = class IssueQueryService {
     constructor() {
-        this.issueDataAccess = new IssueDataAccess();
+        this.issueQueryDataAccess = new IssueQueryDataAccess();
     }
 
     async insertIntoQueryRepository(issues) {
@@ -13,7 +13,7 @@ module.exports = class IssueService {
                 if (this.validateIssue(issue)) {
                     console.log('IssueService.insertIntoQueryRepository','Inserting issue into documents...');
                     const formattedIssue = this.formatIssue(issue);
-                    await this.issueDataAccess.persistIssueInDocuments(formattedIssue);
+                    await this.issueQueryDataAccess.persistIssueInDocuments(formattedIssue);
                 }
             }
         } catch (err) {
@@ -37,8 +37,9 @@ module.exports = class IssueService {
     }
 
     formatIssue(issue) {
-        const year = issue.issueDate.getFullYear() || 0;
-        const month = issue.issueDate.getMonth() || 0;
+        const dateStr = issue.issueDate;
+        const year = getYearFromDate(dateStr);
+        const month = getMonthFromDate(dateStr);
         return { ...issue, year, month };
     }
 }

@@ -1,5 +1,5 @@
 const QueryRepository = require('../../repositories/queryRepository');
- module.exports = class IssueDataAccess {
+ module.exports = class IssueQueryDataAccess {
      constructor() {
          this.issueYearRepository = QueryRepository.IssuesYear;
          this.issueCodesRepository = QueryRepository.IssuesCodes;
@@ -12,7 +12,7 @@ const QueryRepository = require('../../repositories/queryRepository');
             await this.persistIssueCodes(issue);
             await this.persistIssueStates(issue);
         } catch (err) {
-            throw new Error('Database connection error\n'+ err)
+            throw new Error(err)
         }
     }
 
@@ -26,7 +26,11 @@ const QueryRepository = require('../../repositories/queryRepository');
             const update = { 
                 $inc: { "months.$.count": 1 } 
             }
-            await this.issueYearRepository.update(document, update).exec();
+            await this.issueYearRepository.updateOne(document, update, (err, raw) => {
+                if(err) {
+                    console.log('issueDataAccess.persistIssueYear', err)
+                }
+            }).exec();
         }
     }
     
@@ -39,7 +43,11 @@ const QueryRepository = require('../../repositories/queryRepository');
         const update = { 
             $inc: { "issues.$.count": 1 } 
         }
-        await this.issueCodesRepository.update(document, update).exec();
+        await this.issueCodesRepository.updateOne(document, update, (err, raw) => {
+            if(err) {
+                console.log('issueDataAccess.persistIssueCodes', err)
+            }
+        }).exec();
     }
 
     async persistIssueStates(issue) {
@@ -51,6 +59,10 @@ const QueryRepository = require('../../repositories/queryRepository');
         const update = { 
             $inc: { "issues.$.count": 1 } 
         }
-        await this.issueStatesRepository.update(document, update).exec();
+        await this.issueStatesRepository.updateOne(document, update, (err, raw) => {
+            if(err) {
+                console.log('issueDataAccess.persistIssueStates', err)
+            }
+        }).exec();
     }
  }
