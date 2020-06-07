@@ -5,7 +5,7 @@ const publisher = new Publisher(config.get('queue_name'))
 const processIssues = (issues) => {
     return new Promise(async function(resolve, reject) {
         try{
-            splitAndPublish(issues)
+            await splitAndPublish(issues)
             resolve();
         }
         catch(err){
@@ -14,13 +14,13 @@ const processIssues = (issues) => {
     })
 }
 
-const splitAndPublish = (issues) => {
+const splitAndPublish = async (issues) => {
     let chunkSize = config.get('issues_per_message')
     while(issues.length > 0) {
         if(issues.length < chunkSize) chunkSize = issues.length
         let chunk = issues.splice(0,chunkSize)
         console.log(`Queuing [${chunkSize}] issues`)
-        publisher.publish(chunk)
+        await publisher.publish(chunk)
     }
 }
 

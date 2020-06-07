@@ -8,8 +8,8 @@ module.exports = class Publisher extends AbstractPublisher {
         const redisOpts = config.get('redis_opts')
         this.queue = new Queue(channel, redisOpts);
     }
-    publish(message) {
+    async publish(message) {
         console.log('Sending message to channel '+this.channel)
-        this.queue.add(message);
+        await this.queue.add(message);
     }
 }
