@@ -1,10 +1,11 @@
 const Sender = require('./sender')
 
-const initialize = () => {
+const initialize = async () => {
     try {
-        Sender.initialize()
+        await Sender.initialize()
+        await Sender.sendIssues()
     } catch (err) {
-        console.log(`Error initializing Sender: ${err}`)
+        console.log(`Error on Sender: ${err}`)
     }
 }
 

@@ -5,12 +5,20 @@ const HttpService = require('../services/http-service')
 const timeStampFieldName = config.get('time_stamp_field_name')
 
 module.exports = class Sender {
+
     static async initialize () {
         await Repository.initRepository();  
-        
-        let consumers = await this.getConsumers()
-        consumers.forEach(consumer => 
-            this.sendData(consumer))
+        this.consumers = await this.getConsumers()
+    }
+
+    static async getConsumers() {
+        return await Consumers.getConsumers()
+    }
+
+    static async sendIssues() {
+        for(let i=0; i<this.consumers.length; i++) {
+            await this.sendData(this.consumers[i])
+        }
     }
 
     static async sendData(consumer){
@@ -55,9 +63,5 @@ module.exports = class Sender {
         } catch(err) {
             console.log(`Error while trying to post issues to ${endpoint}: ${err}`)
         }
-    }
-
-    static async getConsumers() {
-        return await Consumers.getConsumers()
     }
 }
