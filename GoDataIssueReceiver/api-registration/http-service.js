@@ -2,7 +2,7 @@ const axios = require('axios');
 
 module.exports = class HttService {
     
-    static postIssues(url, data){
+    static postRegistry(url, data){
         return axios({
             method: 'post',
             url: url,

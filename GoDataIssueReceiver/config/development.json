@@ -3,6 +3,13 @@
         "port":4000,
         "data_limit": "1000mb"
     },
+    "data_providers": ["http://127.0.0.1:3000/nycda/registration"],
+    "registration_data": {
+        "name":"GoData",
+        "method":"POST",
+        "endpoint":"http://127.0.0.1:4000/issues",
+        "format":"json"
+    },
     "messaging": "bull-redis",
     "queue_name": "go-data-issues",
     "issues_per_message": 10,

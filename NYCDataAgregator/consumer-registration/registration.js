@@ -11,7 +11,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use('/nycda', routes)
 
 const initialize = () => {
-    app.listen(port, () => console.log(`Consumer registration listening on port ${port}`))
+    app.listen(port, () => console.log(`Consumer registration listening on /nycda/registration port ${port}`))
 }
 
 module.exports = {

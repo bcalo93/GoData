@@ -24,8 +24,6 @@ const initialize = () => {
     app.listen(port, () => console.log(`GoData IssueReceiver listening on port ${port}`))
 }
 
-initialize()
-
 module.exports = {
     initialize
 }
