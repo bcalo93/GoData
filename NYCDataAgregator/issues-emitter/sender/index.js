@@ -9,6 +9,7 @@ module.exports = class Sender {
     static async initialize () {
         await Repository.initRepository();  
         this.consumers = await this.getConsumers()
+        this.consumersObserver = Consumers.getConsumersObserver()
     }
 
     static async getConsumers() {
@@ -19,6 +20,7 @@ module.exports = class Sender {
         for(let i=0; i<this.consumers.length; i++) {
             await this.sendData(this.consumers[i])
         }
+        this.watchNewConsumers()
     }
 
     static async sendData(consumer){
@@ -33,6 +35,7 @@ module.exports = class Sender {
         let remaining = totalQuantity
         let tmpFrom = from
         let issues = []
+        
         while(remaining > 0) {
             let max = remaining
             if(max > maxRegs) max = maxRegs
@@ -43,10 +46,16 @@ module.exports = class Sender {
             while(issues.length >= quantityPerQuery) {
                 let chunk = issues.splice(0,quantityPerQuery)
                 this.addTimestamp(chunk)
-                console.log(`Sending [${quantityPerQuery}] issues`)
+                console.log(`Sending [${quantityPerQuery}] issues to ${consumer.endpoint}`)
                 await this.trySendData(chunk, consumer.endpoint)
             }
         }
+    }
+
+    static watchNewConsumers() {
+        this.consumersObserver.on('new-consumer', async (consumer) => {
+            await this.sendData(consumer)
+        })
     }
 
     static addTimestamp(issues) {

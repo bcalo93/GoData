@@ -1,10 +1,23 @@
 const config = require('config')
 const fs = require('fs');
 const _ = require('lodash');
+const { EventEmitter } = require('events');
 
 const fsPromises = fs.promises
 
 const filePath = config.get('file_repository.path')
+
+class ConsumerObserver extends EventEmitter {
+    constructor(){
+        super()
+    }
+
+    emmitNewConsumer(consumer){
+        this.emit('new-consumer', consumer)
+    }
+}
+
+const observer = new ConsumerObserver();
 
 const saveConsumer = (consumer) => {
     return new Promise(async function(resolve, reject) {
@@ -14,6 +27,7 @@ const saveConsumer = (consumer) => {
                 actualData.push(consumer)
                 let processed = JSON.stringify(actualData)
                 await fsPromises.writeFile(filePath, processed)
+                observer.emmitNewConsumer(consumer)
             }
             resolve();
         }
@@ -46,6 +60,10 @@ const getConsumers = () => {
     })
 }
 
+const getConsumersObserver = () => {
+    return observer;
+}
+
 const fileExists = async () => {
     try{
         await fsPromises.access(filePath, fs.constants.fsF_OK)
@@ -58,5 +76,6 @@ const fileExists = async () => {
 
 module.exports = {
     saveConsumer,
-    getConsumers
+    getConsumers,
+    getConsumersObserver
 }

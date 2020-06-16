@@ -3,6 +3,6 @@ module.exports = class AbstractPublisher {
         this.channel = channel;
     }
     async publish(message) {
-        throw Error('Not implemented');
+        throw new Error('Not implemented');
     }
 }

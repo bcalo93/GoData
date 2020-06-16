@@ -12,5 +12,6 @@ const getRepository = () => {
 
 module.exports = {
     saveConsumer: getRepository().saveConsumer,
-    getConsumers: getRepository().getConsumers
+    getConsumers: getRepository().getConsumers,
+    getConsumersObserver: getRepository().getConsumersObserver
 }

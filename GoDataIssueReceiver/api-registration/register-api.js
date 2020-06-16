@@ -18,7 +18,7 @@ const registerApi = async() => {
     }
 
     if(errors.length > 0) {
-        throw Error(errors)
+        throw new Error(errors)
     }
 }
 
