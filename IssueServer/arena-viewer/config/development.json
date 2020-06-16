@@ -1,6 +1,6 @@
 {
     "redis": {
         "host": "localhost",
-        "queue": { "name": "issues", "host": "local" }
+        "queue": { "name": "go-data-issues", "host": "local" }
     }
 }

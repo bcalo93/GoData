@@ -4,7 +4,7 @@
         "data_limit": "1000mb"
     },
     "messaging": "bull-redis",
-    "queue_name": "issues",
+    "queue_name": "go-data-issues",
     "issues_per_message": 10,
     "redis_opts": {
         "host": "127.0.0.1",

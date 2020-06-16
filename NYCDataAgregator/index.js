@@ -1,6 +1,6 @@
 const config = require('config')
 const ConsumerRegistration = require('./consumer-registration/registration')
-const IssuesEmmiter = require('./issues-emmiter')
+const IssuesEmmiter = require('./issues-emitter')
 
 try {
     ConsumerRegistration.initialize()
