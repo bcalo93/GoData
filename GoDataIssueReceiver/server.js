@@ -21,7 +21,7 @@ app.use((error, req, res, next) => {
 });
 
 const initialize = () => {
-    app.listen(port, () => console.log(`Issues Api listening on port ${port}`))
+    app.listen(port, () => console.log(`GoData IssueReceiver listening on port ${port}`))
 }
 
 initialize()
