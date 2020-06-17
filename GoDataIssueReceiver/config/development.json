@@ -3,7 +3,17 @@
         "port":4000,
         "data_limit": "1000mb"
     },
-    "data_providers": ["http://127.0.0.1:3000/nycda/registration"],
+    "data_providers": [
+        {
+            "endpoint":"http://127.0.0.1:3000/nycda/registration",
+            "permissions":[
+                {
+                    "method":"POST",
+                    "resource":"issues"
+                }
+            ]
+        }
+    ],
     "registration_data": {
         "name":"GoData",
         "method":"POST",

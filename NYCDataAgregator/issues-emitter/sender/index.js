@@ -1,13 +1,13 @@
 const config = require('config')
 const Repository = require('../repository')
 const Consumers = require('../../consumers-repository')
-const HttpService = require('../services/http-service')
+const HttpService = require('../services/http-client')
 const timeStampFieldName = config.get('time_stamp_field_name')
 
 module.exports = class Sender {
 
     static async initialize () {
-        await Repository.initRepository();  
+        await Repository.initRepository()
         this.consumers = await this.getConsumers()
         this.consumersObserver = Consumers.getConsumersObserver()
     }
@@ -18,7 +18,11 @@ module.exports = class Sender {
 
     static async sendIssues() {
         for(let i=0; i<this.consumers.length; i++) {
-            await this.sendData(this.consumers[i])
+            try{
+                await this.sendData(this.consumers[i])
+            } catch(err) {
+                console.error(`Error sending issues to ${this.consumers[i].endpoint}. ${err}`)
+            }
         }
         this.watchNewConsumers()
     }
@@ -47,7 +51,7 @@ module.exports = class Sender {
                 let chunk = issues.splice(0,quantityPerQuery)
                 this.addTimestamp(chunk)
                 console.log(`Sending [${quantityPerQuery}] issues to ${consumer.endpoint}`)
-                await this.trySendData(chunk, consumer.endpoint)
+                await this.trySendData(chunk, consumer)
             }
         }
     }
@@ -65,9 +69,9 @@ module.exports = class Sender {
         }
     }
 
-    static async trySendData(issues, endpoint) {
+    static async trySendData(issues, consumer) {
         try {
-            await HttpService.postIssues(endpoint, issues)
+            await HttpService.postIssues(consumer.endpoint, issues, consumer.token)
             console.log(`POST sent`)
         } catch(err) {
             console.log(`Error while trying to post issues to ${endpoint}: ${err}`)

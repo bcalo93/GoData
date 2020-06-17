@@ -1,7 +1,7 @@
 const config = require('config')
-const fs = require('fs');
-const _ = require('lodash');
-const { EventEmitter } = require('events');
+const fs = require('fs')
+const _ = require('lodash')
+const { EventEmitter } = require('events')
 
 const fsPromises = fs.promises
 
@@ -17,19 +17,20 @@ class ConsumerObserver extends EventEmitter {
     }
 }
 
-const observer = new ConsumerObserver();
+const observer = new ConsumerObserver()
 
 const saveConsumer = (consumer) => {
     return new Promise(async function(resolve, reject) {
         try{
             let actualData = await getConsumers()
-            if(nameNotExists(consumer.name, actualData)){
-                actualData.push(consumer)
-                let processed = JSON.stringify(actualData)
-                await fsPromises.writeFile(filePath, processed)
-                observer.emmitNewConsumer(consumer)
+            if(consumerExists(consumer.name, actualData)){
+                _.remove(actualData,{"name":consumer.name})
             }
-            resolve();
+            actualData.push(consumer)
+            let processed = JSON.stringify(actualData)
+            await fsPromises.writeFile(filePath, processed)
+            observer.emmitNewConsumer(consumer)
+            resolve()
         }
         catch(err){
             reject(err)
@@ -38,8 +39,8 @@ const saveConsumer = (consumer) => {
     
 }
 
-const nameNotExists = (name, collection) => {
-    return !_.some(collection, {"name":name})
+const consumerExists = (name, collection) => {
+    return _.some(collection, {"name":name})
 }
 
 const getConsumers = () => {
@@ -47,12 +48,12 @@ const getConsumers = () => {
         try{
             let result = []
             if(await fileExists()){
-                let rawData = await fsPromises.readFile(filePath);
+                let rawData = await fsPromises.readFile(filePath)
                 if(rawData.length > 0){
-                    result = JSON.parse(rawData);
+                    result = JSON.parse(rawData)
                 }
             }
-            resolve(result);
+            resolve(result)
         }
         catch(err){
             reject(err)
@@ -61,7 +62,7 @@ const getConsumers = () => {
 }
 
 const getConsumersObserver = () => {
-    return observer;
+    return observer
 }
 
 const fileExists = async () => {

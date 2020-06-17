@@ -1,22 +1,22 @@
-const _ = require('lodash');
-const Joi = require('joi');
-const Schemas = require('../schemas');
+const _ = require('lodash')
+const Joi = require('joi')
+const Schemas = require('../schemas')
 
 module.exports = () => {
-    const supportedMethods = ['post'];
+    const supportedMethods = ['post']
 
     const validationOptions = {
         abortEarly: false,
         allowUnknown: true,
         stripUnknown: true
-    };
+    }
 
     return (req, res, next) => {
-        const route = req.route.path;
-        const method = req.method.toLowerCase();
+        const route = req.route.path
+        const method = req.method.toLowerCase()
 
         if (_.includes(supportedMethods, method) && _.has(Schemas, route)) {
-            const schema = _.get(Schemas, route);
+            const schema = _.get(Schemas, route)
 
             if (schema) {
                 return Joi.validate(req.body, schema, validationOptions, (err, data) => {
@@ -25,21 +25,20 @@ module.exports = () => {
                             status: 'failed',
                             error: {
                                 original: err._object,
-                                // fetch only message and type from each error
                                 details: _.map(err.details, ({message, type}) => ({
                                     message: message.replace(/['"]/g, ''),
                                     type
                                 }))
                             }
-                        };
-                        res.status(422).json(JoiError);
+                        }
+                        res.status(422).json(JoiError)
                     } else {
-                        req.body = data;
-                        next();
+                        req.body = data
+                        next()
                     }
-                });
+                })
             }
         }
-        next();
-    };
-};
+        next()
+    }
+}

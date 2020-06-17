@@ -1,5 +1,5 @@
-const Config = require('config');
-const Sequelize = require('sequelize');
+const Config = require('config')
+const Sequelize = require('sequelize')
 
 module.exports = class Repository {
     static connect() {
@@ -17,27 +17,27 @@ module.exports = class Repository {
                     idle: 10000
                 }
             }
-        );
+        )
     }
 
     static async loadCollections() {
-        const sequelize = this.connection;
-        const Issue = require('./models/issues')(Sequelize, sequelize);
-        module.exports.Issue = Issue;
+        const sequelize = this.connection
+        const Issue = require('./models/issues')(Sequelize, sequelize)
+        module.exports.Issue = Issue
     }
 
     static async initRepository() {
         try {
-            await this.connect();
-            await this.loadCollections();
+            await this.connect()
+            await this.loadCollections()
         } catch (err) {
-            console.log(`Error trying to connect to database: ${err}`);
+            console.log(`Error trying to connect to database: ${err}`)
         }
     }
 
     static async getIssues(from, limit) {
         return new Promise((resolve, reject) => {
-            const sequelize = this.connection;
+            const sequelize = this.connection
             sequelize
                 .query(`SELECT t.*
                         FROM(
@@ -56,7 +56,7 @@ module.exports = class Repository {
                     let issues = []
                     res.forEach(issue => {
                         issues.push(issue.dataValues)
-                    });
+                    })
                     resolve(issues)
                 }).catch((err) => reject(err))
         })

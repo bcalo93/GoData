@@ -1,6 +1,6 @@
 const config = require('config')
-const AsyncLock = require('async-lock');
-const lock = new AsyncLock({maxPending: 1000, timeout: 5000});
+const AsyncLock = require('async-lock')
+const lock = new AsyncLock({maxPending: 1000, timeout: 5000})
 const fs = require('fs')
 const lockKey = 'lock'
 const readline = require('readline')
@@ -15,7 +15,7 @@ module.exports = class Buffer {
             await lock.acquire(lockKey, function() {
                 return fs.promises.appendFile(pendingFile, JSON.stringify(message)+'\n')
             }).then(function() {
-            });
+            })
         } catch(err) {
             console.error(err)
         }   
@@ -63,6 +63,6 @@ module.exports = class Buffer {
                 })
             })
         }).then(function() {
-        });
+        })
     }
 }

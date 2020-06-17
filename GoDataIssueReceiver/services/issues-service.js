@@ -7,7 +7,7 @@ const processIssues = (issues) => {
     return new Promise(async function(resolve, reject) {
         try{
             await splitAndPublish(issues)
-            resolve();
+            resolve()
         }
         catch(err){
             console.error(err)
