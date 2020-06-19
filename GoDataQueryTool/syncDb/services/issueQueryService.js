@@ -6,18 +6,18 @@ module.exports = class IssueQueryService {
         this.issueQueryDataAccess = new IssueQueryDataAccess();
     }
 
-    async insertIntoQueryRepository(issues) {
-        try {
-            for (let index = 0; index < issues.length; index++) {
-                const issue = issues[index];
+    async insertIntoQueryRepository(issues) {  
+        for (let index = 0; index < issues.length; index++) {
+            const issue = issues[index];
+            try {
                 if (this.validateIssue(issue)) {
                     console.log('IssueQueryService.insertIntoQueryRepository','Inserting issue into documents...');
                     const formattedIssue = this.formatIssue(issue);
                     await this.issueQueryDataAccess.persistIssueInDocuments(formattedIssue);
                 }
+            } catch (err) {
+                console.log('IssueQueryService.insertIntoQueryRepository','Something went wrong ...\n'+err)
             }
-        } catch (err) {
-            console.log('IssueQueryService.insertIntoQueryRepository','Something went wrong ...\n'+err)
         }
     }
 
