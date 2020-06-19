@@ -12,7 +12,7 @@ const getYearFromDate = (date) => {
 }
 
 const getMonthFromDate = (date) => {
-    return new Date(date).getMonth() || 0;
+    return new Date(date).getMonth()+1 || -1;
 }
 
 module.exports = {
