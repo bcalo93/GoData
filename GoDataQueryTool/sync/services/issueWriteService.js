@@ -1,14 +1,18 @@
 const IssueWriteDataAccess = require('../dataAccess/issueWriteDataAccess');
 const Queue = require('bull');
 const Config = require('config');
-const QUEUE_NAME = Config.get('queue_sync_db.name');
+const QUEUE_SYNC_DB = Config.get('queue_sync_db.name');
+const QUEUE_TRANSFORMATION = Config.get('queue_transformation_go_data.name');
+
 const { parseToDate, isValidDate } = require('../../utils/dateUtils');
 
 module.exports = class IssueWriteService {
     constructor() {
         this.issueWriteDataAccess = new IssueWriteDataAccess();
-        console.log('sync.IssueWriteService', `Listening to queue: ${QUEUE_NAME}`);
-        this.queue = new Queue(QUEUE_NAME);
+        console.log('sync.IssueWriteService', `Connected to queue: ${QUEUE_SYNC_DB}`);
+        console.log('sync.IssueWriteService', `Connected to queue: ${QUEUE_TRANSFORMATION}`);
+        this.queueSyncDb = new Queue(QUEUE_SYNC_DB);
+        this.queueTransformation = new Queue(QUEUE_TRANSFORMATION);
     }
 
     async syncReadDatabase(issues) {
@@ -21,7 +25,7 @@ module.exports = class IssueWriteService {
                         console.log('IssueWriteService.syncReadDatabase','Inserting issue ...');
                         const insertedIssue = await this.issueWriteDataAccess.save(issue);
                         console.log('IssueWriteService.syncReadDatabase', `Issue id: ${insertedIssue.SUMMONS_NUMBER} inserted ...`);
-                        const formattedIssue = this.formatIssue(insertedIssue);
+                        const formattedIssue = this.formatIssue(issue);
                         issuesToSync.push(formattedIssue);
                     }
                 } catch (err) {
@@ -29,8 +33,9 @@ module.exports = class IssueWriteService {
                 }
             }
             if (issuesToSync.length !== 0) {
-                console.log('IssueWriteService.syncReadDatabase',`Enqueuing ${issuesToSync.length} items into ...`)
-                this.queue.add(issuesToSync);
+                console.log('IssueWriteService.syncReadDatabase',`Enqueuing ${issuesToSync.length} items into ...`);
+                this.queueTransformation.add(issuesToSync);
+                this.queueSyncDb.add(issuesToSync);
             }
         } catch (err) {
             console.log('IssueWriteService.syncReadDatabase','Something went wrong ...\n'+err);
