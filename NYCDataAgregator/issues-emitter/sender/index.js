@@ -3,6 +3,9 @@ const Repository = require('../repository')
 const Consumers = require('../../consumers-repository')
 const HttpService = require('../services/http-client')
 const timeStampFieldName = config.get('time_stamp_field_name')
+const fs = require('fs')
+const jwt = require('jsonwebtoken')
+const secretKey = fs.readFileSync('./config/security/private.key', 'utf8')
 
 module.exports = class Sender {
 
@@ -71,10 +74,13 @@ module.exports = class Sender {
 
     static async trySendData(issues, consumer) {
         try {
-            await HttpService.postIssues(consumer.endpoint, issues, consumer.token)
+            let signOptions = config.get('jwt')
+            let token = jwt.sign({data:issues}, secretKey, signOptions)
+            console.log(token)
+            await HttpService.postIssues(consumer.endpoint, token)
             console.log(`POST sent`)
         } catch(err) {
-            console.log(`Error while trying to post issues to ${endpoint}: ${err}`)
+            console.log(`Error while trying to post issues to ${consumer.endpoint}: ${err}`)
         }
     }
 }

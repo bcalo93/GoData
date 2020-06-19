@@ -20,6 +20,10 @@
         "pass": "password"
         }
     },
+    "jwt": {
+        "expiresIn": "12h",
+        "algorithm": "RS256"
+    },
     "time_stamp_field_name": "timeStamp",
     "db_query_max_regs": 200000
 }
