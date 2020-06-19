@@ -1,6 +1,6 @@
 
 const QueryDataAccess = require('../dataAccess/queryDataAccess');
-
+const { formatResultYears, formatResultCodes, formatResultStates } = require('./formatQueryResult');
 module.exports = class QueryService {
     constructor(){
         this.queryDataAccess = new QueryDataAccess();
@@ -15,8 +15,11 @@ module.exports = class QueryService {
 
     async executeIssuesYearReport(request) {
         console.log('executeIssuesYearReport', request);
-        let year  = request.year;
-        if(year) return await this.queryDataAccess.issuesYearReport({ year });
+        const year  = request.year;
+        if(year) {
+            const result = await this.queryDataAccess.issuesYearReport({ year });
+            return formatResultYears(result);
+        }
     }
 
     async executeIssuesCodesReport(request) {
@@ -25,7 +28,8 @@ module.exports = class QueryService {
             const from = this.parseToDate(request.from);
             const to = this.parseToDate(request.to);
             const codes = request.codes || [];
-            return await this.queryDataAccess.issuesCodesReport({ from, to, codes });
+            const result = await this.queryDataAccess.issuesCodesReport({ from, to, codes });
+            return formatResultCodes(result);
         }
     }
 
@@ -35,7 +39,8 @@ module.exports = class QueryService {
             const from = this.parseToDate(request.from);
             const to = this.parseToDate(request.to);
             const states = request.states || [];
-            return await this.queryDataAccess.issuesStatesReport({ from, to, states });
+            const result = await this.queryDataAccess.issuesStatesReport({ from, to, states });
+            return formatResultStates(result);
         }
     }
 
