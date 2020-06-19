@@ -4,11 +4,6 @@ const uniqueValidator = require('mongoose-unique-validator');
 const Schema = mongoose.Schema;
 
 const issuesRegistrationStatesDateSchemma = Schema({
-    id: {
-        type: String,
-        required: true,
-        unique: true,
-    },
     registrationState: {
         type: String,
         required: true,
@@ -17,7 +12,7 @@ const issuesRegistrationStatesDateSchemma = Schema({
     issues: [{
         date: {
             type: Date,
-            required: true
+            required: true,
         },
         count: {
             type: Number,

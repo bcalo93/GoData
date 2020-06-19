@@ -4,18 +4,14 @@ const uniqueValidator = require('mongoose-unique-validator');
 const Schema = mongoose.Schema;
 
 const issuesYearSummarySchema = Schema({
-    id: {
-        type: String,
-        required: true,
-        unique: true,
-    },
     year: {
-        type: String,
+        type: Number,
         required: true,
+        unique: true
     },
     months: [{
         month: {
-            type: String,
+            type: Number,
             required: true,
         },
         count: {
