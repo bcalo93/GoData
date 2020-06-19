@@ -21,7 +21,7 @@
         }
     },
     "jwt": {
-        "expiresIn": 30,
+        "expiresIn": 240,
         "algorithm": "RS256"
     },
     "time_stamp_field_name": "timeStamp",
