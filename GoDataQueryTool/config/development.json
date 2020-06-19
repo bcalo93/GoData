@@ -14,5 +14,8 @@
   },
   "queue_sync_db": {
     "name": "db-sync"
+  },
+  "queue_transformation_go_data": {
+    "name": "go-data-transformations"
   }
 }
