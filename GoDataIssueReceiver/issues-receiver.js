@@ -10,7 +10,7 @@ const app = express()
 const port = config.get('webapi.port')
 const dataLimit = config.get('webapi.data_limit')
  
-//app.use(jwt({ secret: publicKey, algorithms: ['RS256']}));
+app.use(jwt({ secret: publicKey, algorithms: ['RS256']}));
 app.use(bodyParser.json({limit: dataLimit}))
 app.use(bodyParser.urlencoded({limit: dataLimit, extended: true}))
 app.use('/', routes)

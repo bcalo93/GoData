@@ -76,8 +76,7 @@ module.exports = class Sender {
         try {
             let signOptions = config.get('jwt')
             let token = jwt.sign({data:issues}, secretKey, signOptions)
-            console.log(token)
-            await HttpService.postIssues(consumer.endpoint, token)
+            await HttpService.postIssues(consumer.endpoint, issues, token)
             console.log(`POST sent`)
         } catch(err) {
             console.log(`Error while trying to post issues to ${consumer.endpoint}: ${err}`)
