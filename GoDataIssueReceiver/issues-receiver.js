@@ -2,6 +2,7 @@ const config = require('config')
 const express = require('express')
 const bodyParser = require('body-parser')
 const routes = require('./routes/routes')
+var https = require('https')
 const jwt = require('express-jwt');
 const fs = require('fs');
 const publicKey = fs.readFileSync('./security/public.key', 'utf8');
@@ -24,8 +25,14 @@ app.use((error, req, res, next) => {
     })
 })
 
+const server = https.createServer(
+{
+    key: fs.readFileSync('./security/server.key'),
+    cert: fs.readFileSync('./security/server.cert')
+}, app)
+
 const initialize = () => {
-    app.listen(port, () => console.log(`GoData IssueReceiver listening on port ${port}`))
+    server.listen(port, () => console.log(`GoData IssueReceiver listening on port ${port}`))
 }
 
 module.exports = {

@@ -9,8 +9,8 @@
         "path": "./consumers-repository/data/registered-consumers.json"
     },
     "issues_emmiter": {
-        "posts_quantity": 5,
-        "issues_per_query": 1,
+        "posts_quantity": 1,
+        "issues_per_query": 20000,
         "offset": 1
     },
     "issues_repository": {
@@ -21,7 +21,7 @@
         }
     },
     "jwt": {
-        "expiresIn": "12h",
+        "expiresIn": 30,
         "algorithm": "RS256"
     },
     "time_stamp_field_name": "timeStamp",
