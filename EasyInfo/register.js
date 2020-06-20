@@ -3,14 +3,14 @@ const config = require('config');
 
 const REGISTER_BODY = {
     id: 'easyInfo',
-    endpoint: 'http://localhost:8091',
+    endpoint: 'https://localhost:8091',
     method: "post",
     filters: [
         { 
             name: "date_between", 
             options: {
-                fromDate: "2019-06-22",
-                toDate: "2019-07-29"
+                fromDate: "1900-06-22",
+                toDate: "2050-07-29"
             }
         },
         {

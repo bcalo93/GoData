@@ -1,4 +1,4 @@
-
+process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
 
 (async() => {
     const config = require('config')

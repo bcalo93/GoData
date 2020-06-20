@@ -17,5 +17,9 @@
         "upcomingData": "go-data-transformations",
         "completed": "transformation_done"
     },
-    "redisConnection": { "port": 6379, "host": "127.0.0.1" }
+    "redisConnection": { "port": 6379, "host": "127.0.0.1" },
+    "jwt": {
+        "expiresIn": 120,
+        "algorithm": "RS256"
+    }
 }
