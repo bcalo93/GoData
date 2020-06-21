@@ -1,4 +1,3 @@
-process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
 const config = require('config')
 
 const getRepository = () => {

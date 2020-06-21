@@ -16,7 +16,8 @@ module.exports = class IssueWriteService {
     }
 
     async syncReadDatabase(issues) {
-        const issuesToSync = [];
+        const issuesToTransformation = [];
+        const issuesToSyncDb = [];
         try {
             for (let index = 0; index < issues.length; index++) {
                 const issue = issues[index];
@@ -26,16 +27,17 @@ module.exports = class IssueWriteService {
                         const insertedIssue = await this.issueWriteDataAccess.save(issue);
                         console.log('IssueWriteService.syncReadDatabase', `Issue id: ${insertedIssue.SUMMONS_NUMBER} inserted ...`);
                         const formattedIssue = this.formatIssue(issue);
-                        issuesToSync.push(formattedIssue);
+                        issuesToSyncDb.push(formattedIssue);
+                        issuesToTransformation.push(issue);
                     }
                 } catch (err) {
                     console.log('IssueWriteService.syncReadDatabase',`Something went wrong when inserting ISSUE.SUMMONS_NUMBER ${issue.SUMMONS_NUMBER} ...\n`+err);
                 }
             }
-            if (issuesToSync.length !== 0) {
-                console.log('IssueWriteService.syncReadDatabase',`Enqueuing ${issuesToSync.length} items into ...`);
-                this.queueTransformation.add(issuesToSync);
-                this.queueSyncDb.add(issuesToSync);
+            if (issuesToSyncDb.length !== 0 && issuesToTransformation.length !== 0) {
+                console.log('IssueWriteService.syncReadDatabase',`Enqueuing ${issuesToSyncDb .length} items into ...`);
+                this.queueTransformation.add(issuesToTransformation);
+                this.queueSyncDb.add(issuesToSyncDb);
             }
         } catch (err) {
             console.log('IssueWriteService.syncReadDatabase','Something went wrong ...\n'+err);
