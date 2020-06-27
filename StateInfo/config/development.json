@@ -4,9 +4,11 @@
         "baseURL": "http://localhost:1122",
         "timeout": 1000
     },
+    "state_info": {
+        "implementation": "./implementations/state-info-redis.js"
+    },
     "data_config":{
-        "stale_since_m": 1,
-        "update_interval": 1,
+        "stale_since_m": 2,
         "plates": {
             "uri": "/statedata/plateType/",
             "field": "plate_name",
