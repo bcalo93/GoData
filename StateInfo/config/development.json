@@ -1,14 +1,14 @@
 {
-    "redis_connection":{ "port": 6379, "host": "127.0.0.1" },
-    "axios_config": {
+    "redisConnection":{ "port": 6379, "host": "127.0.0.1" },
+    "axiosConfig": {
         "baseURL": "http://localhost:1122",
         "timeout": 1000
     },
-    "state_info": {
+    "stateInfo": {
         "implementation": "./implementations/state-info-redis.js"
     },
-    "data_config":{
-        "stale_since_m": 10,
+    "dataConfig":{
+        "StaleSinceMinutes": 10,
         "plates": {
             "uri": "/statedata/plateType/",
             "field": "plate_name",

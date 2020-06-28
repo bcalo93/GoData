@@ -2,10 +2,11 @@ const config = require('config')
 const redis = require('redis')
 const HttpClient = require('./http-client')
 const util = require("util")
-const axiosConfig = config.get('axios_config')
+const axiosConfig = config.get('axiosConfig')
 const AbstractStateInfo = require('./state-info')
 
-const dataConfig = config.get('data_config')
+const dataConfig = config.get('dataConfig')
+const redisConnection = config.get('redisConnection')
 
 class DataService extends AbstractStateInfo {
 
@@ -17,7 +18,7 @@ class DataService extends AbstractStateInfo {
 
     initializeRedis() {
         this.redisReady = false
-        this.redisClient = redis.createClient()
+        this.redisClient = redis.createClient(redisConnection)
         this.redisClient.on('error', (error) => {
             this.redisReady = false
         })
@@ -68,7 +69,7 @@ class DataService extends AbstractStateInfo {
     async valueIsUpToDate(key, id) {
         let value = await this.cacheGetAsync(key, id)
         const info = JSON.parse(value)
-        const staleTime = dataConfig.stale_since_m * 1000 * 60
+        const staleTime = dataConfig.StaleSinceMinutes * 1000 * 60
         return ((Date.now() - info.since) < staleTime)
     }
 
@@ -87,4 +88,4 @@ class DataService extends AbstractStateInfo {
     }
 }
 
-module.exports = new DataService()
+module.exports = DataService

@@ -2,13 +2,16 @@ const config = require('config')
 const default_implementation = './implementations/state-info-redis.js'
 
 const getStateInfo = () => {
-    let type = config.get('state_info.implementation') || default_implementation
+    let type = config.get('stateInfo.implementation') || default_implementation
+    let Implementation
     
     try{
-        return require(type)
+        Implementation = require(type)
     } catch(err) {
-        return require(default_implementation)
+        Implementation = require(default_implementation)
     }
+
+    return new Implementation()
 }
 
 module.exports = getStateInfo()
