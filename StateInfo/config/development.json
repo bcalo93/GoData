@@ -8,7 +8,7 @@
         "implementation": "./implementations/state-info-redis.js"
     },
     "data_config":{
-        "stale_since_m": 2,
+        "stale_since_m": 10,
         "plates": {
             "uri": "/statedata/plateType/",
             "field": "plate_name",

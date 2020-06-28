@@ -37,7 +37,7 @@ class DataService extends AbstractStateInfo {
         return this.get(dataConfig.states, code)
     }
 
-    async get(config, id) {
+    get(config, id) {
         return new Promise(async (resolve, reject) => {
             try {
                 if(this.redisReady && await this.isUpToDate(config.key,id)){

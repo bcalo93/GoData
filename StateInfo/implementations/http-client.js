@@ -1,6 +1,6 @@
 const axios = require('axios')
 
-module.exports = class HttService {
+module.exports = class HttpService {
 
     constructor(config){
         this.instance = axios.create(config);
