@@ -1,23 +1,41 @@
 
 (async() => {
-    const DataService = require('./data-service')
-    DataService.initialize().on('redis_error', (error) => {
-        console.error(`Error de redis. ${error.message}`)
-    })
+    const dataService = require('.')
 
-    try {
-        await console.log(await DataService.getType("AGR"))
-        await console.log(await DataService.getType("DLR"))
-        await console.log(await DataService.getType("FAR"))
+    //Redis up
+    setTimeout(async () => {
+        try {
+            await console.log(await dataService.getType("DLR"))
+            await console.log(await dataService.getType("FAR"))
+            await console.log(await dataService.getState("YT"))
+            await console.log(await dataService.getState("NJ"))
+        } catch(err) {
+            console.error(err)
+        }
+    }, 1000)
 
-        await console.log(await DataService.getState("YT"))
-        await console.log(await DataService.getState("NY"))
-        await console.log(await DataService.getState("NJ"))
-        await DataService.initDataUpdater()
+    //Redis down
+    setTimeout(async () => {
+        try {
+            await console.log(await dataService.getType("DLR"))
+            await console.log(await dataService.getType("FAR"))
+            await console.log(await dataService.getState("YT"))
+            await console.log(await dataService.getState("NJ"))
+        } catch(err) {
+            console.error(err)
+        }
+    }, 10000)
 
-        setTimeout(() => DataService.stopDataUpdater(),1000*60*4)
-    } catch(err) {
-        console.error('Error')
-    }
+    //Redis up
+    setTimeout(async () => {
+        try {
+            await console.log(await dataService.getType("DLR"))
+            await console.log(await dataService.getType("FAR"))
+            await console.log(await dataService.getState("YT"))
+            await console.log(await dataService.getState("NJ"))
+        } catch(err) {
+            console.error(err)
+        }
+    }, 20000)
 })
 ()
