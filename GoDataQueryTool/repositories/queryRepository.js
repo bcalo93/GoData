@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const issuesYearSchema = require("./readModels/issuesYear");
 const issuesCodesSchema = require("./readModels/issuesCodes");
 const issuesStatesSchema = require("./readModels/issuesStates");
+const log = require('./log');
 
 module.exports = class QueryRepository {
     static async connect() {
@@ -27,7 +28,7 @@ module.exports = class QueryRepository {
             await this.connect();
             await this.loadCollections();
         } catch (err) {
-            console.log(`Error trying to connect to database: ${err}`);
+            log.error(`Error trying to connect to reading database: ${err}`);
         }
     }
 };

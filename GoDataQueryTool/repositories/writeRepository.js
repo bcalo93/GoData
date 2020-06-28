@@ -1,23 +1,30 @@
 const Config = require('config');
 const Sequelize = require('sequelize');
+const log = require('./log');
 
 module.exports = class Repository {
-    static connect() {
+
+    static connect() {   
+        const log = require('./log');
+     
         this.connection = new Sequelize(
             Config.get('write_repository.name'), 
             Config.get('write_repository.credentials.user'), 
             Config.get('write_repository.credentials.pass'), 
-            { dialect: "mysql",}
+            { 
+                dialect: "mysql",
+                logging: msg => log.warn(msg)
+            }
         );
     }
-    static async loadCollections() {
+    static loadCollections() {
         const sequelize = this.connection;
         // set up models
         const Issue = require('./writeModels/issues')(Sequelize, sequelize);
 
         module.exports.Issue = Issue;
         
-        sequelize.sync();
+        return sequelize.sync();
     }
 
 
@@ -26,7 +33,7 @@ module.exports = class Repository {
             await this.connect();
             await this.loadCollections();
         } catch (err) {
-            console.log(`Error trying to connect to database: ${err}`);
+            log.error(`Error trying to connect to writing database: ${err}`);
         }
     }
 }

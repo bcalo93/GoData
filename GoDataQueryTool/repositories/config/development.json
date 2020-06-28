@@ -9,13 +9,7 @@
   "query_repository": {
     "url": "mongodb://localhost:27017/go-data-query-tool"
   },
-  "queue_sync_go_data": {
-    "name": "go-data-issues"
-  },
-  "queue_sync_db": {
-    "name": "db-sync"
-  },
-  "queue_transformation_go_data": {
-    "name": "go-data-transformations"
+  "logger": {
+    "implementation": "winston"
   }
 }
