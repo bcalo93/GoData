@@ -1,12 +1,13 @@
 const config = require('config')
 const redis = require('redis')
-const HttpClient = require('./http-client')
+const { HttpClient, NotFoundError, ConnectionError} = require('./http-client')
 const util = require("util")
 const axiosConfig = config.get('axiosConfig')
 const AbstractStateInfo = require('./state-info')
 
 const dataConfig = config.get('dataConfig')
 const redisConnection = config.get('redisConnection')
+const NON_EXISTENT = 'non_existent'
 
 class DataService extends AbstractStateInfo {
 
@@ -38,12 +39,24 @@ class DataService extends AbstractStateInfo {
         return this.get(dataConfig.states, code)
     }
 
+    existsType(plate) {
+        return this.exists(dataConfig.plates, plate)
+    }
+
+    existsState(code){
+        return this.exists(dataConfig.states, code)
+    }
+
     get(config, id) {
         return new Promise(async (resolve, reject) => {
             try {
                 if(this.redisReady && await this.isUpToDate(config.key,id)){
                     let result = JSON.parse(await this.cacheGetAsync(config.key,id))
-                    resolve(result.value)
+                    let value = result.value
+                    if(value === NON_EXISTENT){
+                        reject(`${id} not found.`)
+                    }
+                    resolve(value)
                 } else {
                     try{
                         let data = await this.getFromApi(config, id)
@@ -52,12 +65,31 @@ class DataService extends AbstractStateInfo {
                         }
                         resolve(data)
                     } catch(error) {
-                        reject('Error getting info from StateData')
+                        if(this.isNotFoundError(error) && this.redisReady){
+                            await this.setCacheValue(config, id, NON_EXISTENT)
+                        }
+                        reject(`${error}. Getting ${id} from StateData.`)
                     }
                 }
             } catch(error) {
                 reject(error)
             }
+        })
+    }
+
+    isNotFoundError(error) {
+        return (error instanceof NotFoundError)
+    }
+
+    exists(config, id){
+        return new Promise(async (resolve, reject) => {
+            try{
+                await this.get(config, id)
+                resolve(true)
+            } catch(err) {
+                resolve(false)
+            }
+            reject()
         })
     }
 

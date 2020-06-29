@@ -8,7 +8,7 @@
         "implementation": "./implementations/state-info-redis.js"
     },
     "dataConfig":{
-        "StaleSinceMinutes": 10,
+        "StaleSinceMinutes": 1,
         "plates": {
             "uri": "/statedata/plateType/",
             "field": "plate_name",
