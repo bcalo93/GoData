@@ -18,9 +18,12 @@ const processIssues = (issues) => {
 
 const splitAndPublish = async (issues) => {
     let chunkSize = config.get('issues_per_message')
-    while(issues.length > 0) {
-        if(issues.length < chunkSize) chunkSize = issues.length
-        let chunk = issues.splice(0,chunkSize)
+    let length = issues.data.length
+    while(length > 0) {
+        if(length < chunkSize) chunkSize = length
+        let chunk = {}
+        chunk.timeStamp = issues.timeStamp
+        chunk.data = issues.data.splice(0,chunkSize)
         console.log(`Queuing [${chunkSize}] issues`)
         try{
             await publisher.publish(chunk)

@@ -52,7 +52,6 @@ module.exports = class Sender {
             
             while(issues.length >= quantityPerQuery) {
                 let chunk = issues.splice(0,quantityPerQuery)
-                this.addTimestamp(chunk)
                 console.log(`Sending [${quantityPerQuery}] issues to ${consumer.endpoint}`)
                 await this.trySendData(chunk, consumer)
             }
@@ -65,19 +64,15 @@ module.exports = class Sender {
         })
     }
 
-    static addTimestamp(issues) {
-        let ts = Date.now()
-        for (let elem = 0; elem < issues.length; elem++) {
-            issues[elem][timeStampFieldName] = ts
-        }
-    }
-
     static async trySendData(issues, consumer) {
         try {
             let signOptions = config.get('jwt')
             let payload = { data: Date.now() }
             let token = jwt.sign(payload, secretKey, signOptions)
-            await HttpService.postIssues(consumer.endpoint, issues, token)
+            let body = {}
+            body[timeStampFieldName] = Date.now()
+            body.data = issues
+            await HttpService.postIssues(consumer.endpoint, body, token)
             console.log(`POST sent`)
         } catch(err) {
             console.log(`Error while trying to post issues to ${consumer.endpoint}: ${err}`)
