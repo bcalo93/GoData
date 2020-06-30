@@ -10,6 +10,7 @@ const publicKey = fs.readFileSync('./security/public.key', 'utf8');
 const app = express()
 const port = config.get('webapi.port')
 const dataLimit = config.get('webapi.data_limit')
+const useHttps = config.get('webapi.use_https')
  
 app.use(jwt({ secret: publicKey, algorithms: ['RS256']}));
 app.use(bodyParser.json({limit: dataLimit}))
@@ -25,14 +26,21 @@ app.use((error, req, res, next) => {
     })
 })
 
-const server = https.createServer(
-{
-    key: fs.readFileSync('./security/server.key'),
-    cert: fs.readFileSync('./security/server.cert')
-}, app)
+const listenCallback = () => {
+    console.log(`GoData IssueReceiver listening on port ${port}`)
+}
 
 const initialize = () => {
-    server.listen(port, () => console.log(`GoData IssueReceiver listening on port ${port}`))
+    if(useHttps){
+        const serverConfig = {
+            key: fs.readFileSync('./security/server.key'),
+            cert: fs.readFileSync('./security/server.cert')
+        }
+        const server = https.createServer(serverConfig, app)
+        server.listen(port, listenCallback)
+    } else {
+        app.listen(port, listenCallback)
+    }
 }
 
 module.exports = {
