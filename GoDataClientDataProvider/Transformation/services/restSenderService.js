@@ -12,9 +12,9 @@ const CONTENT_JSON = 'application/json';
 const CONTENT_XML = 'text/xml';
 
 module.exports = class RestSenderService {
-    async send(content, context) {
+    async send(content, { context, timeStamp }) {
         const contentType = this.getContentType(content);
-        const token = this.getToken()
+        const token = this.getToken();
 
         try {
             await axios({
@@ -23,14 +23,22 @@ module.exports = class RestSenderService {
                 data: content.message,
                 headers: { 
                     'Content-Type': contentType,
-                    'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${token}`,
+                    'Timestamp': timeStamp
                 }
             });
         
         } catch (error) {
-            throw new SenderException(
-                `Request failed - Status Code: ${error}.`
-            );
+            let message;
+            if (error.response) {
+                message = `Status Code: ${error.response.status} - Message: ${error.response.data}`;
+            
+            } else if (error.request) {
+                message = 'No Response from server';
+            } else {
+                message = error.message;
+            }
+            throw new SenderException(`Request failed - App: ${context.id} - ${message}`);
         }
     }
 

@@ -28,7 +28,7 @@ const filter = (input, next, options) => {
         } else {
             if (!isInRange(input.ISSUE_DATE, fromDate, toDate)) {
                 next();
-                return;            
+                return;
             }
             result = input;
         }

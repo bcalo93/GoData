@@ -19,9 +19,11 @@ module.exports = class TransformationService {
             try {
                 const registries = await this.registryRepository.findAll();
                 registries.forEach(registry => {
+                    const { timeStamp, data } = job.data;
                     this.filterService.run({
-                        input: job.data,
-                        context: registry
+                        input: data,
+                        context: registry,
+                        timeStamp
                     });
                 });
                 done();

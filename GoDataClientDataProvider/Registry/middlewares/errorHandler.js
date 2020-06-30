@@ -2,9 +2,9 @@ const { RegistryServiceException, ValidationRegistryException } = require('../ex
 
 module.exports = (err, req, res, next) => {
     if (err instanceof ValidationRegistryException) {
-        res.status(404);
+        res.status(400);
         res.json({
-            status: 404,
+            status: 400,
             message: err.message,
             errors: err.errors
         });

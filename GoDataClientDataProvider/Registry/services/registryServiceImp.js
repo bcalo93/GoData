@@ -20,6 +20,12 @@ module.exports = class RegistryServiceImp {
     }
 
     async findAll() {
-        return await this.repository.findAll();
+        try {
+            return await this.repository.findAll();
+        } catch(err) {
+            throw new RegistryServiceException(
+                'An error occurred trying to find all registries', err
+            );
+        }
     }
 }

@@ -27,7 +27,7 @@ module.exports = class QueueFilterService {
     startFilterQueues() {
         this.queueFilterList.forEach(element => {
             element.queue.process((job, done) => {
-                const { context, input } = job.data;
+                const { context, input, timeStamp } = job.data;
                 const currentIndex = context.filters.findIndex(filter => filter.name === element.name);
                 element.filter(input, (error, result) => {
                     if (error) {
@@ -41,7 +41,7 @@ module.exports = class QueueFilterService {
                         return;
                     }
                     
-                    this.nextQueue(context, currentIndex).add({ input: result, context })
+                    this.nextQueue(context, currentIndex).add({ input: result, context, timeStamp })
                         .then(() => done())
                         .catch(err => done(err));
                 }, context.filters[currentIndex].options);
@@ -52,8 +52,8 @@ module.exports = class QueueFilterService {
     startDoneQueue() {
         this.doneQueue.process(async (job, done) => {
             try {
-                const { input, context } = job.data;
-                await this.senderService.send(input, context);
+                const { input, context, timeStamp } = job.data;
+                await this.senderService.send(input, { context, timeStamp });
                 done();
             } catch(error) {
                 // TODO: Log Goes here
@@ -72,7 +72,8 @@ module.exports = class QueueFilterService {
         }
     }
 
-    async run({ input, context }) {
+    async run(data) {
+        const { context } = data;
         const firstFilter = this.queueFilterList
             .find(element => element.name === context.filters[0].name);
         if (!firstFilter) {
@@ -81,7 +82,7 @@ module.exports = class QueueFilterService {
             return;
         }
         try {
-            await firstFilter.queue.add({ input, context });
+            await firstFilter.queue.add(data);
         } catch(err) {
             // TODO Logging should goes here or just throw Custom exception.
             console.log(err);

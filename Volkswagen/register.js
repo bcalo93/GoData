@@ -9,18 +9,42 @@ const buildUrl = () => {
 }
 
 const REGISTER_BODY = {
-    id: 'easyInfo',
+    id: 'volkswagen',
     endpoint: buildUrl(),
     method: "post",
     filters: [
         {
+            name: 'valid_date'
+        },
+        {
+            name: 'where_fields',
+            options: {
+                VEHICLE_MAKE: ['VOLKS', 'AUDI', 'BUGAT', 'PORSC']
+            }
+        },
+        {
             name: 'select_fields',
             options: [
                 'ISSUE_DATE', 
+                'VEHICLE_MAKE', 
+                'VEHICLE_BODY_TYPE', 
+                'VEHICLE_YEAR',
                 'VIOLATION_CODE',
+                'VIOLATION_PRECINCT',
                 'REGISTRATION_STATE',
                 'PLATE_TYPE'
             ]
+        },
+        {
+            name: "date_between", 
+            options: {
+                fromDate: "2019-01-14",
+                toDate: "2019-12-31"
+            }
+        },
+        {
+            name: 'date_format',
+            options: 'DD/MM/YYYY'
         },
         {
             name: 'state_info'
@@ -30,7 +54,11 @@ const REGISTER_BODY = {
             options: 'BOTH'
         },
         {
-            name: "xml_format"
+            name: 'not_empty_field',
+            options: ['VEHICLE_BODY_TYPE']
+        },
+        {
+            name: "json_format"
         }
     ]
 };

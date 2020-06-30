@@ -21,5 +21,25 @@
     "jwt": {
         "expiresIn": 120,
         "algorithm": "RS256"
+    },
+    "axiosConfig": {
+        "baseURL": "http://localhost:1122",
+        "timeout": 1000
+    },
+    "stateInfo": {
+        "implementation": "./implementations/state-info-redis.js"
+    },
+    "dataConfig":{
+        "StaleSinceMinutes": 10,
+        "plates": {
+            "uri": "/statedata/plateType/",
+            "field": "plate_name",
+            "key": "SD:PLATES"
+        },
+        "states": {
+            "uri": "/statedata/state/",
+            "field": "state_name",
+            "key": "SD:STATES"
+        }
     }
 }

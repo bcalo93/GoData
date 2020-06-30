@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "test": "mocha",
-    "arena": "node arena.js go-data-transformations transformation_done date_between json_format xml_format"
+    "arena": "node arena.js go-data-transformations transformation_done date_between json_format xml_format select_fields where_fields date_format violation_code not_empty_field valid_date state_info"
   },
   "author": "",
   "license": "ISC",
@@ -23,6 +23,7 @@
   "devDependencies": {
     "chai": "^4.2.0",
     "mocha": "^7.2.0",
-    "sinon": "^9.0.2"
+    "sinon": "^9.0.2",
+    "sinon-chai": "^3.5.0"
   }
 }
