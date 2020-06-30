@@ -30,6 +30,7 @@ const splitAndPublish = async (issues) => {
         } catch(err) {
             await contingency.addMessage(chunk)
         }
+        length = issues.data.length
     }
 }
 
