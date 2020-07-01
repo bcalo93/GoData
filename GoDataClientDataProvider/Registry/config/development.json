@@ -16,7 +16,7 @@
         "path": "./winston/winstonImpl.js",
         "configuration": "./options/default.js",
         "meta": {
-            "appName": "GoDataRegistry"
+            "app_name": "GoDataRegistry"
         }
     }
 }
