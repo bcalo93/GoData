@@ -10,13 +10,18 @@ module.exports = class IssueQueryDataAccess {
     }
 
     async persistIssueInDocuments(issue) {
+        const location = { location: 'IssueQueryDataAccess.persistIssueInDocuments'};
         try{
-            console.log('IssueQueryDataAccess.persistIssueInDocuments', `Issue to persist: ${JSON.stringify(issue)}`);
+            log.info('Persist Issue information into reports ...', location);
+            log.debug(`Issue to persist: ${JSON.stringify(issue)}`, location);
             await persistIssueYear(issue, this.issueYearRepository);
             await persistIssueCodes(issue, this.issueCodesRepository);
             await persistIssueStates(issue, this.issueStatesRepository);
         } catch (err) {
-            throw new Error(err)
+            log.error(`Issue to persist: ${JSON.stringify(issue)}`, location);
+            const error = new Error(err)
+            log.error(error, location);
+            throw error;
         }
     }
 

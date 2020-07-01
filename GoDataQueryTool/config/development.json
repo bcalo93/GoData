@@ -6,7 +6,7 @@
     "path": "./winston/winstonImpl.js",
     "configuration": "./options/default.js",
     "meta": {
-      "appName": "GoDataQueryTool"
+      "app_name": "GoDataQueryTool"
     }
   },
   "query_repository": {

@@ -4,7 +4,8 @@ const { format, transports } = winston;
 const { combine, label, json, timestamp, printf, prettyPrint, colorize } = format;
 
 const Config = require('config');
-const APP_NAME = Config.has('winston.meta.appName') ? Config.get('winston.meta.appName') : '';
+const APP_NAME = Config.has('winston.meta.app_name') ? Config.get('winston.meta.app_name') : '';
+const LOG_LEVEL = Config.has('winston.meta.log_level') ? Config.get('winston.meta.log_level') : 'debug';
 
 const consoleFormat = printf(({ level, message, label, timestamp, meta }) => {
   const location = (!!meta && !!meta.location) ? `[${meta.location}] ` : '';
@@ -17,17 +18,16 @@ if (!fs.existsSync(LOGS_DIR)){
 }
 
 module.exports = {
-    level: 'debug',
+    level: LOG_LEVEL,
     format: combine(
       label({ label: APP_NAME ? APP_NAME : '' }),
       json(),
       timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
       consoleFormat
     ),
-    defaultMeta: { service: 'user-service' },
     transports: [
       new transports.Console({
-        level: 'debug',
+        level: LOG_LEVEL,
         format: combine(
           colorize({ all: true }),
         )

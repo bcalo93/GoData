@@ -2,9 +2,11 @@ const config = require('config');
 const FilterService = require('./serviceProvider')('FilterService');
 const Queue = require('bull');
 const RegistryRepository = require('./../dependencies/Commons').repositoryProvider('RegistryRepository');
+const log = require('./../log');
 
 const REDIS_CONNECTION = config.get('queues.redisConnection');
 const UPCOMING_DATA = config.get('queues.upcomingData');
+const LOCATION = { location: 'TransformationService.upcomingData.process' };
 
 module.exports = class TransformationService {
     constructor() {
@@ -16,6 +18,7 @@ module.exports = class TransformationService {
     start() {
         this.filterService.startListening();
         this.upcomingData.process(async (job, done) => {
+            log.info(`Started processing job: ${job.id}`, LOCATION);
             try {
                 const registries = await this.registryRepository.findAll();
                 registries.forEach(registry => {
@@ -28,9 +31,7 @@ module.exports = class TransformationService {
                 });
                 done();
             } catch(err) {
-                // TODO: Log logic goes here.
-                console.log('ErrorTransformationService');
-                console.log(err);
+                log.error(err, LOCATION);
                 done(err);
             }
         });

@@ -1,11 +1,8 @@
 const formatResultYears = (dbResult) => {
     const aux = dbResult.map(x => {
         const { year, months } = x;
-        const auxMonths = months.map(m => {
-            const { month, count } = m;
-            return { month, count };
-        })
-        return { year, auxMonths };
+        const monthsCount = sumCountItems(months);
+        return { year, monthsCount };
     });
     return aux;
 }
@@ -13,11 +10,8 @@ const formatResultYears = (dbResult) => {
 const formatResultCodes = (dbResult) => {
     const aux = dbResult.map(x => {
         const { violationCode, issues } = x;
-        const auxIssues = issues.map(m => {
-            const { date, count } = m;
-            return { date, count };
-        })
-        return { violationCode, auxIssues };
+        const issuesCount = sumCountItems(issues);
+        return { violationCode, issuesCount };
     });
     return aux;
 }
@@ -25,13 +19,15 @@ const formatResultCodes = (dbResult) => {
 const formatResultStates = (dbResult) => {
     const aux = dbResult.map(x => {
         const { registrationState, issues } = x;
-        const auxIssues = issues.map(m => {
-            const { date, count } = m;
-            return { date, count };
-        })
-        return { registrationState, auxIssues };
+        const issuesCount = sumCountItems(issues);
+        return { registrationState, issuesCount };
     });
     return aux;
+}
+
+const sumCountItems = (issues) => {
+    const array = issues.map( i=> i.count );
+    return array.reduce((a, b) => a + b, 0);
 }
 
 module.exports = {

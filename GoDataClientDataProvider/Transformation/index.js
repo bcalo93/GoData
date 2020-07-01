@@ -1,12 +1,12 @@
 process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
 const TransformationService = require('./services/serviceProvider')('TransformationService');
+const log = require('./log');
 
 (async () => {
     try {
         new TransformationService().start();
-        console.log('Process started...');
+        log.info('Process started...', { location: 'index' });
     } catch(error) {
-        //TODO log goes here.
-        console.log(error);
+        log.error(error);
     }
 })();

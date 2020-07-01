@@ -1,4 +1,5 @@
 const { RegistryServiceException, ValidationRegistryException } = require('../exceptions');
+const log = require('./../log');
 
 module.exports = (err, req, res, next) => {
     if (err instanceof ValidationRegistryException) {
@@ -10,7 +11,7 @@ module.exports = (err, req, res, next) => {
         });
 
     } else if (err instanceof RegistryServiceException) {
-        // Log Should goes here. Redis might be down.
+        log.error(err, { location: 'errorHandler.RegistryServiceException'});
         res.status(503);
         res.json({
             status: 503,
@@ -18,7 +19,7 @@ module.exports = (err, req, res, next) => {
         });
 
     } else {
-        // It breaks somewhere log error here.
+        log.error(err, { location: 'errorHandler'});
         next(err);
     }
 }

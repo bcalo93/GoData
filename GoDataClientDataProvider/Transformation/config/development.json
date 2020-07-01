@@ -41,5 +41,15 @@
             "field": "state_name",
             "key": "SD:STATES"
         }
+    },
+    "logger": {
+        "implementation": "winston"
+    },
+    "winston" : {
+        "path": "./winston/winstonImpl.js",
+        "configuration": "./options/default.js",
+        "meta": {
+            "appName": "GoDataTransformations"
+        }
     }
 }

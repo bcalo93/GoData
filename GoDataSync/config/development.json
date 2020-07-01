@@ -36,7 +36,8 @@
     "path": "./winston/winstonImpl.js",
     "configuration": "./options/default.js",
     "meta": {
-      "appName": "GoDataSync"
+      "app_name": "GoDataSync",
+      "log_level": "info"
     }
   },
   "write_repository": {

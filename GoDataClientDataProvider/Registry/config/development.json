@@ -8,5 +8,15 @@
             "collectionName": "godataregistry_registries"
         }
     },
-    "redisConnection": { "port": 6379, "host": "127.0.0.1" }
+    "redisConnection": { "port": 6379, "host": "127.0.0.1" },
+    "logger": {
+        "implementation": "winston"
+    },
+    "winston" : {
+        "path": "./winston/winstonImpl.js",
+        "configuration": "./options/default.js",
+        "meta": {
+            "appName": "GoDataRegistry"
+        }
+    }
 }

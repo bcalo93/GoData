@@ -13,7 +13,7 @@ module.exports = class Repository {
             Config.get('write_repository.credentials.pass'), 
             { 
                 dialect: "mysql",
-                logging: msg => log.warn(msg)
+                logging: msg => log.debug(msg, { location: 'Repository.connect' })
             }
         );
     }
@@ -33,7 +33,7 @@ module.exports = class Repository {
             await this.connect();
             await this.loadCollections();
         } catch (err) {
-            log.error(`Error trying to connect to writing database: ${err}`);
+            log.error(`Error trying to connect to writing database: ${err}`, { location: 'Repository.initRepository' });
         }
     }
 }

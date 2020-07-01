@@ -6,7 +6,8 @@
     "path": "/winston/winstonImpl.js",
     "configuration": "./options/default.js",
     "meta": {
-      "appName": "Repositories"
+      "app_name": "Repositories",
+      "log_level": "error"
     }
   }
 }

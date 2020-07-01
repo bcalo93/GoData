@@ -14,7 +14,7 @@ module.exports = class QueryRepository {
                 useFindAndModify: false
             }
         );
-         mongoose.set('useCreateIndex', true)
+        mongoose.set('useCreateIndex', true)
     }
 
     static async loadCollections() {
@@ -28,7 +28,7 @@ module.exports = class QueryRepository {
             await this.connect();
             await this.loadCollections();
         } catch (err) {
-            log.error(`Error trying to connect to reading database: ${err}`);
+            log.error(`Error trying to connect to reading database: ${err}`, { location: 'QueryRepository.initRepository' });
         }
     }
 };
