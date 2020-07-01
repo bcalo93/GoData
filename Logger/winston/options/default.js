@@ -39,6 +39,14 @@ module.exports = {
         format: combine(
           prettyPrint()
         ),    
+      }),
+      new transports.File({ 
+        level: 'info',
+        filename: `${LOGS_DIR}/info.log`, 
+        name: 'info-file',
+        format: combine(
+          prettyPrint()
+        ),    
       })
     ],
     exceptionHandlers: [

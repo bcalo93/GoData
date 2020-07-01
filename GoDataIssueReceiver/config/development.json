@@ -13,7 +13,7 @@
     },
     "messaging": "bull-redis",
     "queue_name": "go-data-issues",
-    "issues_per_message": 10,
+    "issues_per_message": 200,
     "redis_opts": {
         "host": "127.0.0.1",
         "port": 6379,
