@@ -2,7 +2,7 @@ const config = require('config');
 const FilterService = require('./serviceProvider')('FilterService');
 const Queue = require('bull');
 const RegistryRepository = require('./../dependencies/Commons').repositoryProvider('RegistryRepository');
-const log = require('./../log');
+const log = require('./../dependencies/Logger');
 
 const REDIS_CONNECTION = config.get('queues.redisConnection');
 const UPCOMING_DATA = config.get('queues.upcomingData');

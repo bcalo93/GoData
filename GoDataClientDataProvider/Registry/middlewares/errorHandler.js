@@ -1,5 +1,5 @@
 const { RegistryServiceException, ValidationRegistryException } = require('../exceptions');
-const log = require('./../log');
+const log = require('./../dependencies/Logger');
 
 module.exports = (err, req, res, next) => {
     if (err instanceof ValidationRegistryException) {

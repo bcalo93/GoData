@@ -1,7 +1,7 @@
 const Server = require('./server');
 const { QueryRepository } = require('../Repositories');
 
-const log = require('./log');
+const log = require('../Logger');
 const location = { location: 'index' };
 
 (async () => {

@@ -1,6 +1,6 @@
 const { QueryRepository } = require('../../Repositories');
 const { getCodesCriteria, getStateCriteria } = require('./criteriaUtils');
-const log = require('../log');
+const log = require('../../Logger');
 
 module.exports = class QueryDataAccess {
     constructor(){
