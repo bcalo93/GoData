@@ -1,14 +1,15 @@
 process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
+const log = require('./log');
+const location = { location: 'NYCDataAgregator.index' };
+const ConsumerRegistration = require('./consumer-registration/registration');
+const IssuesEmmiter = require('./issues-emitter');
 
 (async() => {
-    const config = require('config')
-    const ConsumerRegistration = require('./consumer-registration/registration')
-    const IssuesEmmiter = require('./issues-emitter')
-
+    log.info('NYCDataAgregator starting...', location)
     ConsumerRegistration.initialize()
     await IssuesEmmiter.initialize()
 })()
 .catch(err => {
-    console.log(`An error occurred on initialization: ${err}`)
+    log.error(`An error occurred on initialization: ${err}`, location)
     process.exit(1)
 })

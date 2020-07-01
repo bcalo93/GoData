@@ -1,3 +1,5 @@
+const log = require('./log');
+const location = { location: 'index' };
 
 (async() => {
     const receiver = require('./issues-receiver.js')
@@ -6,6 +8,6 @@
     receiver.initialize()   
 })()
     .catch(err => {
-        console.error(`${err}`)
+        log.error(`${err}`,location)
         process.exit(1)
     })

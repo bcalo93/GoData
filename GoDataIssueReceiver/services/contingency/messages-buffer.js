@@ -7,6 +7,8 @@ const readline = require('readline')
 const stream = require('stream')
 const issuesService = require('../issues-service')
 const pendingFile = './services/contingency/pending'
+const log = require('../../log');
+const location = { location: 'contingency' };
 
 module.exports = class Buffer {
     
@@ -17,7 +19,7 @@ module.exports = class Buffer {
             }).then(function() {
             })
         } catch(err) {
-            console.error(err)
+            log.error(err,location)
         }   
     }
 
@@ -50,7 +52,7 @@ module.exports = class Buffer {
                 rl.on('close', async function() {
                     try {
                         if(issues.length > 0) await issuesService.processIssues(issues)
-                        console.log(`Finished restoring issues`)
+                        log.info(`Finished restoring issues`,location)
                         await fs.promises.truncate(pendingFile)
                         resolve()
                     } catch(err) {

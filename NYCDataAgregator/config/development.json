@@ -9,8 +9,8 @@
         "path": "./consumers-repository/data/registered-consumers.json"
     },
     "issues_emmiter": {
-        "posts_quantity": 10,
-        "issues_per_query": 100,
+        "posts_quantity": 3,
+        "issues_per_query": 10,
         "offset": 707000
     },
     "issues_repository": {
@@ -25,5 +25,15 @@
         "algorithm": "RS256"
     },
     "time_stamp_field_name": "timeStamp",
-    "db_query_max_regs": 200000
+    "db_query_max_regs": 200000,
+    "logger": {
+        "implementation": "winston"
+      },
+      "winston" : {
+        "path": "./winston/winstonImpl.js",
+        "configuration": "./options/default.js",
+        "meta": {
+          "appName": "GoDataSyncReports"
+        }
+      }
 }

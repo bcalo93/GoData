@@ -1,10 +1,12 @@
 const registration = require('../services/api-registration-service')
+const log = require('../../log');
+const location = { location: 'consumers-registration.controller' }
 
 const registerConsumer = async (req, res, next) => {
   const consumerData = req.body
   try {
     let result = await registration.registerConsumer(consumerData)
-    console.log('Consumer registered.')
+    log.info('Consumer registered.',location)
     res
       .status(201)
       .send(result)

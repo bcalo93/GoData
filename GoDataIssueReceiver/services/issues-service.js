@@ -1,7 +1,10 @@
 const config = require('config')
-const Publisher = require('./messaging/messaging')()
+const Publisher = require('./messaging/messaging')
 const publisher = new Publisher(config.get('queue_name'))
 const contingency = require('./contingency/messages-buffer')
+const log = require('../log');
+const location = { location: 'issues-service' };
+
 
 const processIssues = (issues) => {
     return new Promise(async function(resolve, reject) {
@@ -10,7 +13,7 @@ const processIssues = (issues) => {
             resolve()
         }
         catch(err){
-            console.error(err)
+            log.error(err,location)
             reject()
         }
     })
@@ -24,12 +27,15 @@ const splitAndPublish = async (issues) => {
         let chunk = {}
         chunk.timeStamp = issues.timeStamp
         chunk.data = issues.data.splice(0,chunkSize)
-        console.log(`Queuing [${chunkSize}] issues`)
+        log.info(`Queuing [${chunkSize}] issues`, location)
+
         try{
             await publisher.publish(chunk)
         } catch(err) {
+            log.error(`Sending issues to contingency repository. ${err}`,location)
             await contingency.addMessage(chunk)
         }
+            
         length = issues.data.length
     }
 }

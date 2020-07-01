@@ -1,6 +1,6 @@
 const config = require('config')
 
-module.exports = function bind() {
+const bind = () => {
     let type = config.get('messaging') || 'bull-redis'
     
     try{
@@ -9,3 +9,5 @@ module.exports = function bind() {
         return require(`./${type}/publisher`)
     }
 }
+
+module.exports = bind()

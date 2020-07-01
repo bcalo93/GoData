@@ -1,5 +1,7 @@
 const Config = require('config')
 const Sequelize = require('sequelize')
+const log = require('../../log');
+const location = { location: 'issues-emitter.repository' }
 
 module.exports = class Repository {
     static connect() {
@@ -31,7 +33,7 @@ module.exports = class Repository {
             await this.connect()
             await this.loadCollections()
         } catch (err) {
-            console.log(`Error trying to connect to database: ${err}`)
+            log.error(`Error trying to connect to database: ${err}`,location)
         }
     }
 

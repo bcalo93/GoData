@@ -20,5 +20,15 @@
         "path": null,
         "enable_offline_queue": true
     },
-    "recovery_chunk_size": 500
+    "recovery_chunk_size": 500,
+    "logger": {
+        "implementation": "winston"
+    },
+    "winston" : {
+        "path": "./winston/winstonImpl.js",
+        "configuration": "./options/default.js",
+        "meta": {
+            "appName": "GoDataSyncReports"
+        }
+    }
 }

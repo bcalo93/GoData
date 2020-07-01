@@ -1,5 +1,7 @@
 const config = require('config')
 const HttpService = require('./http-client')
+const log = require('../log');
+const location = { location: 'register-api' };
 
 const registerApi = async() => {
     let errors = []
@@ -7,10 +9,10 @@ const registerApi = async() => {
     let regData = config.get('registration_data')
 
     for(endpoint of providers){
-        console.log(`Registering to ${endpoint}.`)
+        log.info(`Registering to ${endpoint}.`,location)
         try {
             await HttpService.postRegistry(endpoint, regData)
-            console.log(`Registered to ${endpoint}`)
+            log.info(`Registered to ${endpoint}`,location)
         } catch(err) {
             errors.push(`Registering to ${endpoint}. ${err}`)
         } 

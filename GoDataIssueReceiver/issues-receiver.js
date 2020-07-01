@@ -6,6 +6,8 @@ var https = require('https')
 const jwt = require('express-jwt');
 const fs = require('fs');
 const publicKey = fs.readFileSync('./security/public.key', 'utf8');
+const log = require('./log');
+const location = { location: 'issues-receiver' }
 
 const app = express()
 const port = config.get('webapi.port')
@@ -27,7 +29,7 @@ app.use((error, req, res, next) => {
 })
 
 const listenCallback = () => {
-    console.log(`GoData IssueReceiver listening on port ${port}`)
+    log.info(`GoData IssueReceiver listening on port ${port}`,location)
 }
 
 const initialize = () => {

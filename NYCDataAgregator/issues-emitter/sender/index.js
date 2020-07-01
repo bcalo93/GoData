@@ -6,6 +6,8 @@ const timeStampFieldName = config.get('time_stamp_field_name')
 const fs = require('fs')
 const jwt = require('jsonwebtoken')
 const secretKey = fs.readFileSync('./config/security/private.key', 'utf8')
+const log = require('../../log');
+const location = { location: 'issues-emitter.sender' }
 
 module.exports = class Sender {
 
@@ -24,7 +26,7 @@ module.exports = class Sender {
             try{
                 await this.sendData(this.consumers[i])
             } catch(err) {
-                console.error(`Error sending issues to ${this.consumers[i].endpoint}. ${err}`)
+                log.error(`Error sending issues to ${this.consumers[i].endpoint}. ${err}`,location)
             }
         }
         this.watchNewConsumers()
@@ -52,7 +54,7 @@ module.exports = class Sender {
             
             while(issues.length >= quantityPerQuery) {
                 let chunk = issues.splice(0,quantityPerQuery)
-                console.log(`Sending [${quantityPerQuery}] issues to ${consumer.endpoint}`)
+                log.info(`Sending [${quantityPerQuery}] issues to ${consumer.endpoint}`,location)
                 await this.trySendData(chunk, consumer)
             }
         }
@@ -60,7 +62,11 @@ module.exports = class Sender {
 
     static watchNewConsumers() {
         this.consumersObserver.on('new-consumer', async (consumer) => {
-            await this.sendData(consumer)
+            try {
+                await this.sendData(consumer)
+            } catch(error) {
+                log.error(`Error sending issues to ${consumer.endpoint}. ${error}`,location)
+            }
         })
     }
 
@@ -73,9 +79,9 @@ module.exports = class Sender {
             body[timeStampFieldName] = Date.now()
             body.data = issues
             await HttpService.postIssues(consumer.endpoint, body, token)
-            console.log(`POST sent`)
+            log.info(`POST sent`,location)
         } catch(err) {
-            console.log(`Error while trying to post issues to ${consumer.endpoint}: ${err}`)
+            log.error(`Error while trying to post issues to ${consumer.endpoint}: ${err}`,location)
         }
     }
 }

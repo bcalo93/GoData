@@ -1,3 +1,6 @@
+const log = require('./log');
+const location = { location: 'issues-restore' };
+
 
 (async function(){
     try{
@@ -5,7 +8,7 @@
         await msgs.restoreMessages()
         process.exit()
     } catch(err) {
-        console.error(`Error restoring messages. ${err}`)
+        log.error(`Error restoring messages. ${err}`,location)
         process.exit()
     }  
 })()

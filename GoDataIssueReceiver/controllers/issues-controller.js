@@ -1,7 +1,9 @@
 const issuesService = require('../services/issues-service')
+const log = require('../log');
+const location = { location: 'issues-controller' };
 
 const processIssues = async (req, res, next) => {
-  console.log('Received POST')
+  log.info('Received POST',location)
   const issues = req.body
   try {
     await issuesService.processIssues(issues)
