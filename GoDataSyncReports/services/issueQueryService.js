@@ -1,6 +1,6 @@
 const IssueQueryDataAccess = require('../dataAccess/issueQueryDataAccess');
 const { parseToDate, isValidDate, getYearFromDate, getMonthFromDate } = require('../../GoDataSyncUtils/dateUtils');
-const log = require('../log');
+const log = require('../../Logger');
 
 module.exports = class IssueQueryService {
     constructor() {

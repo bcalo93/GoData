@@ -3,7 +3,7 @@ const Config = require('config');
 const QUEUE_NAME = Config.get('queue_sync_db.name');
 const queue = new Queue(QUEUE_NAME);
 const IssueQueryService = require('./services/issueQueryService');
-const log = require('./log');
+const log = require('../Logger');
 
 module.exports.start = async function () {
 

@@ -1,5 +1,5 @@
 const QueryService = require('../services/queryService');
-const log = require('../log');
+const log = require('../../Logger');
 
 module.exports = class QueryController {
     constructor() {

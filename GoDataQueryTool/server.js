@@ -1,5 +1,5 @@
 const port = 3001
-const log = require('./log');
+const log = require('../Logger');
 
 module.exports.initServer = async function () {
     const Koa = require('koa');

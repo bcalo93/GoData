@@ -1,7 +1,7 @@
 
 const QueryDataAccess = require('../dataAccess/queryDataAccess');
 const { formatResultYears, formatResultCodes, formatResultStates } = require('./formatQueryResult');
-const log = require('../log');
+const log = require('../../Logger');
 
 module.exports = class QueryService {
     constructor(){

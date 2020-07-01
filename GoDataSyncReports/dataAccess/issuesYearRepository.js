@@ -1,4 +1,4 @@
-const log = require('../log');
+const log = require('../../Logger');
 
 const persistIssueYear = async (issue, issueYearRepository) => {
     const location = { location: 'issuesYearRepository.persistIssueYear' };

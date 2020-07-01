@@ -1,6 +1,6 @@
 const { QueryRepository } = require('../../Repositories');
 const { persistIssueYear, persistIssueCodes, persistIssueStates } = require('../dataAccess');
-const log = require('../log');
+const log = require('../../Logger');
 
 module.exports = class IssueQueryDataAccess {
      constructor() {
