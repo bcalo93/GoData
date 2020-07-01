@@ -1,0 +1,36 @@
+{
+    "webapi": {
+        "port":4000,
+        "data_limit": "1000mb",
+        "use_https": true
+    },
+    "data_providers": ["http://127.0.0.1:3000/nycda/registration"],
+    "registration_data": {
+        "name":"GoData",
+        "method":"POST",
+        "endpoint":"https://127.0.0.1:4000/issues",
+        "format":"json"
+    },
+    "messaging": "bull-redis",
+    "queue_name": "go-data-issues",
+    "issues_per_message": 200,
+    "redis_opts": {
+        "host": "127.0.0.1",
+        "port": 6379,
+        "path": null,
+        "enable_offline_queue": true,
+        "maxRetriesPerRequest": null,
+        "enableReadyCheck": false
+    },
+    "recovery_chunk_size": 500,
+    "logger": {
+        "implementation": "winston"
+    },
+    "winston" : {
+        "path": "./winston/winstonImpl.js",
+        "configuration": "./options/default.js",
+        "meta": {
+            "app_name": "GoDataIssueReceiver"
+        }
+    }
+}

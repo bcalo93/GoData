@@ -1,0 +1,60 @@
+{
+    "repositories": {
+        "RegistryRepository": {
+            "implementation": "./registryRepositoryImp.js",
+            "collectionName": "godataregistry_registries"
+        }
+    },
+    "services": {
+        "SenderService": "./restSenderService",
+        "FilterService": "./queueFilterService",
+        "TransformationService": "./transformationService"
+    },
+    "queues": {
+        "redisConnection": {
+            "redis": { 
+                "port": 6379, 
+                "host": "127.0.0.1",
+                "maxRetriesPerRequest": null,
+                "enableReadyCheck": false
+            }
+        },
+        "upcomingData": "go-data-transformations",
+        "completed": "transformation_done"
+    },
+    "redisConnection": { "port": 6379, "host": "127.0.0.1" },
+    "jwt": {
+        "expiresIn": 120,
+        "algorithm": "RS256"
+    },
+    "axiosConfig": {
+        "baseURL": "http://localhost:1122",
+        "timeout": 1000
+    },
+    "stateInfo": {
+        "implementation": "./implementations/state-info-redis.js"
+    },
+    "dataConfig":{
+        "StaleSinceMinutes": 10,
+        "plates": {
+            "uri": "/statedata/plateType/",
+            "field": "plate_name",
+            "key": "SD:PLATES"
+        },
+        "states": {
+            "uri": "/statedata/state/",
+            "field": "state_name",
+            "key": "SD:STATES"
+        }
+    },
+    "logger": {
+        "implementation": "winston"
+    },
+    "winston" : {
+        "path": "./winston/winstonImpl.js",
+        "configuration": "./options/default.js",
+        "meta": {
+            "app_name": "GoDataTransformations"
+        }
+    }
+}

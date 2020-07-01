@@ -1,0 +1,13 @@
+{
+  "logger": {
+    "implementation": "winston"
+  },
+  "winston" : {
+    "path": "/winston/winstonImpl.js",
+    "configuration": "./options/default.js",
+    "meta": {
+      "app_name": "Repositories",
+      "log_level": "error"
+    }
+  }
+}

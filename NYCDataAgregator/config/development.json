@@ -1,0 +1,39 @@
+{
+    "webapi": {
+        "port":3000
+    },
+    "consumer_repository":{
+        "type": "file-repository"
+    },
+    "file_repository": {
+        "path": "./consumers-repository/data/registered-consumers.json"
+    },
+    "issues_emmiter": {
+        "posts_quantity": 100,
+        "issues_per_query": 100,
+        "offset": 1000000
+    },
+    "issues_repository": {
+        "name": "NYCDataAggregator",
+        "credentials": {
+        "user": "root",
+        "pass": "password"
+        }
+    },
+    "jwt": {
+        "expiresIn": 240,
+        "algorithm": "RS256"
+    },
+    "time_stamp_field_name": "timeStamp",
+    "db_query_max_regs": 200000,
+    "logger": {
+        "implementation": "winston"
+    },
+    "winston" : {
+        "path": "./winston/winstonImpl.js",
+        "configuration": "./options/default.js",
+        "meta": {
+            "app_name": "NYCDataAgregator"
+        }
+    }
+}

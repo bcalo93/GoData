@@ -1,0 +1,5 @@
+{
+    "goDataEndpoint": "http://localhost:8090/registries",
+    "port": 8092,
+    "useHttps": true
+}

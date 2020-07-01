@@ -1,0 +1,22 @@
+{
+    "services": {
+        "RegistryService": "./registryServiceImp"
+    },
+    "repositories": {
+        "RegistryRepository": {
+            "implementation": "./registryRepositoryImp.js",
+            "collectionName": "godataregistry_registries"
+        }
+    },
+    "redisConnection": { "port": 6379, "host": "127.0.0.1" },
+    "logger": {
+        "implementation": "winston"
+    },
+    "winston" : {
+        "path": "./winston/winstonImpl.js",
+        "configuration": "./options/default.js",
+        "meta": {
+            "app_name": "GoDataRegistry"
+        }
+    }
+}

@@ -1,0 +1,18 @@
+{
+  "queue_sync_db": {
+    "name": "db-sync"
+  },
+  "logger": {
+    "implementation": "winston"
+  },
+  "winston" : {
+    "path": "./winston/winstonImpl.js",
+    "configuration": "./options/default.js",
+    "meta": {
+      "app_name": "GoDataSyncReports"
+    }
+  },
+  "query_repository": {
+    "url": "mongodb://localhost:27017/go-data-query-tool"
+  }
+}
