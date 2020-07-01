@@ -2,8 +2,8 @@ const Server = require('./server');
 const { QueryRepository } = require('../Repositories');
 
 const log = require('./log');
+const location = { location: 'index' };
 
-const location = { location: 'index' }
 (async () => {
     try {
         await QueryRepository.initRepository();
@@ -11,7 +11,4 @@ const location = { location: 'index' }
     } catch (error) {
         log.error(error, location);
     }
-})().catch(err => {
-    log.error(err, location);
-    process.exit(1)
-})
+})()

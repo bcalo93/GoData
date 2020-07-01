@@ -13,7 +13,7 @@ module.exports = class Repository {
             Config.get('write_repository.credentials.pass'), 
             { 
                 dialect: "mysql",
-                logging: msg => log.warn(msg, { location: 'Repository.connect' })
+                logging: msg => log.debug(msg, { location: 'Repository.connect' })
             }
         );
     }

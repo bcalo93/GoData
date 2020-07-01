@@ -22,5 +22,5 @@ module.exports.start = async function () {
             log.error(error, location);
             done(error);
         }
-    });
+    }).catch((err) => log.error(err, { location: 'syncDb.queue#process'}) );
 }
