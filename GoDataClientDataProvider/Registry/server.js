@@ -4,7 +4,7 @@ module.exports.initServer = async () => {
     const bodyParser = require('body-parser');
     const router = require('./controllers/router');
     const errorHandler = require('./middlewares/errorHandler');
-    const log = require('./log');
+    const log = require('./dependencies/Logger');
 
     const app = express();
     app.use(bodyParser.json());

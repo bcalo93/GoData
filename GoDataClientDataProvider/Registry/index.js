@@ -1,5 +1,5 @@
 const Server = require('./server');
-const log = require('./log');
+const log = require('./dependencies/Logger');
 
 (async () => {
     try {

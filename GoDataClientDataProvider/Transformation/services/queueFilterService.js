@@ -2,7 +2,7 @@ const filters = require('./../filters');
 const Queue = require('bull');
 const config = require('config');
 const SenderService = require('./serviceProvider')('SenderService');
-const log = require('./../log');
+const log = require('./../dependencies/Logger');
 
 const REDIS_CONNECTION = config.get('queues.redisConnection');
 const COMPLETED_NAME = config.get('queues.completed');
