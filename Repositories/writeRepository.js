@@ -1,11 +1,11 @@
 const Config = require('config');
 const Sequelize = require('sequelize');
-const log = require('./log');
+const log = require('../Logger');
 
 module.exports = class Repository {
 
     static connect() {   
-        const log = require('./log');
+        const log = require('../Logger');
      
         this.connection = new Sequelize(
             Config.get('write_repository.name'), 

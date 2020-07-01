@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const issuesYearSchema = require("./readModels/issuesYear");
 const issuesCodesSchema = require("./readModels/issuesCodes");
 const issuesStatesSchema = require("./readModels/issuesStates");
-const log = require('./log');
+const log = require('../Logger');
 
 module.exports = class QueryRepository {
     static async connect() {

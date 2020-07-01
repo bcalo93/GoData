@@ -1,5 +1,5 @@
 const { WriteRepository } = require('../../Repositories');
-const log = require('../log');
+const log = require('../../Logger');
 
 module.exports = class IssueWriteDataAccess {
     constructor() {
