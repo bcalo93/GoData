@@ -30,9 +30,14 @@ module.exports.initServer = async function () {
                     message: (err.originalError ? err.originalError.message : err.message)
                 };
             }
-            // } else {
-            //     throw err;
-            // }
+            else {
+                ctx.status = 400;
+                ctx.body = {
+                    status: 400,
+                    message: err.message
+                }
+            }
+            log.error(err);
         }
     });
     app.use(logger());
@@ -40,7 +45,6 @@ module.exports.initServer = async function () {
     app.use(json( { pretty: true } ));
     app.use(router.routes());
     app.use(router.allowedMethods());
-    //app.use(router.middleware());
     app.listen(port);
 
     log.info(`Server started, see http://localhost:${port}

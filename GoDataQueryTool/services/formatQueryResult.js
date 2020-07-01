@@ -1,35 +1,35 @@
 const formatResultYears = (dbResult) => {
     const aux = dbResult.map(x => {
-        const { year, months } = x;
-        const auxMonths = months.map(m => {
+        const { year, auxMonths } = x;
+        const months = auxMonths.map(m => {
             const { month, count } = m;
             return { month, count };
         })
-        return { year, auxMonths };
+        return { year, months };
     });
     return aux;
 }
 
 const formatResultCodes = (dbResult) => {
     const aux = dbResult.map(x => {
-        const { violationCode, issues } = x;
-        const auxIssues = issues.map(m => {
+        const { violationCode, auxIssues } = x;
+        const issues = auxIssues.map(m => {
             const { date, count } = m;
             return { date, count };
         })
-        return { violationCode, auxIssues };
+        return { violationCode, issues };
     });
     return aux;
 }
 
 const formatResultStates = (dbResult) => {
     const aux = dbResult.map(x => {
-        const { registrationState, issues } = x;
-        const auxIssues = issues.map(m => {
+        const { registrationState, auxIssues } = x;
+        const issues = auxIssues.map(m => {
             const { date, count } = m;
             return { date, count };
         })
-        return { registrationState, auxIssues };
+        return { registrationState, issues };
     });
     return aux;
 }

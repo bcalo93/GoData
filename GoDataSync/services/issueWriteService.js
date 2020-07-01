@@ -3,7 +3,7 @@ const Queue = require('bull');
 const Config = require('config');
 const QUEUE_SYNC_DB = Config.get('queue_sync_db.name');
 const QUEUE_TRANSFORMATION = Config.get('queue_transformation_go_data.name');
-// const StateInfo = require('../../StateInfo');
+const StateInfo = require('../../StateInfo');
 const { parseToDate, isValidDate } = require('../../GoDataSyncUtils/dateUtils');
 const log = require('../log');
 
@@ -17,16 +17,16 @@ module.exports = class IssueWriteService {
         this.queueTransformation = new Queue(QUEUE_TRANSFORMATION);
     }
 
-    async syncIssues(issues) {
+    async syncIssues(issuesInfo) {
         const location = { location: 'IssueWriteService.syncIssues' };
         const issuesToTransformation = [];
         const issuesToSyncDb = [];
         try {
-            for (let index = 0; index < issues.length; index++) {
-                const issueInfo = issues[index];
-                const { timeStamp, ...issue } = issueInfo;
+            const { timeStamp, data }  = issuesInfo;
+            for (let index = 0; index < data.length; index++) {
+                const issue = data[index];
                 try {
-                    log.debug(`Issue: ${issue}`, location);
+                    log.debug(`Issue: ${JSON.stringify(issue)}`, location);
                     if (this.validateIssue(issue)) {
                         log.info('Inserting issue ...', location);
                         const insertedIssue = await this.issueWriteDataAccess.save(issue);
@@ -36,12 +36,13 @@ module.exports = class IssueWriteService {
                         issuesToTransformation.push(issue);
                     }
                 } catch (err) {
+                    log.error(`Issue: ${JSON.stringify(issue)}`, location);
                     log.error(`Something went wrong when inserting ISSUE.SUMMONS_NUMBER ${issue.SUMMONS_NUMBER} ...\n`+err, location);
                 }
             }
             if (issuesToSyncDb.length !== 0 && issuesToTransformation.length !== 0) {
-                log.info(`Enqueuing ${issuesToSyncDb .length} items into ...`, location);
-                this.queueTransformation.add(issuesToTransformation);
+                log.info(`Enqueuing ${issuesToSyncDb.length} items into ...`, location);
+                this.queueTransformation.add({ timeStamp, data: issuesToTransformation });
                 this.queueSyncDb.add(issuesToSyncDb);
             }
         } catch (err) {
@@ -52,21 +53,36 @@ module.exports = class IssueWriteService {
     validateIssue(issue) {
         const location = { location: 'IssueWriteService.validateIssue' };
         log.info('Validating issue ...', location);
-        const isValidRegistrationState = issue.REGISTRATION_STATE && issue.REGISTRATION_STATE !== '';
-        const isValidValidViolationCode = issue.VIOLATION_CODE && issue.VIOLATION_CODE !== '';
+        const state = issue.REGISTRATION_STATE;
+        const code = issue.VIOLATION_CODE;
+        const isValidRegistrationState =  state && state !== '';
+        const isValidValidViolationCode = code && code !== '';
         const issueDate = parseToDate(issue.ISSUE_DATE);
         const isValidIssueDate = issue.ISSUE_DATE && isValidDate(issueDate);
         if ( isValidRegistrationState
             && isValidValidViolationCode
             && isValidIssueDate ) {
-                log.info('Validation Ok ...', location);
-                return true;
+                const isValidState = StateInfo.existsState(state);
+                const isValidCode = this.isValidCode(code);
+                if(isValidState && isValidCode) {
+                    log.info('Validation Ok ...', location);
+                    return true;
+                } else {
+                    const message = `Invalid Issue object. \nIssue: ${JSON.stringify(issue)}\n isValidState: ${isValidState} - isValidCode: ${isValidCode}`;
+                    const error = new Error(message);
+                    log.error(error, location);
+                    throw error;
+                }
         } else { 
-            const message = `Invalid Issue object. \nIssue: ${issue}\n isValidRegistrationState: ${isValidRegistrationState} - isValidValidViolationCode: ${isValidValidViolationCode} - isValidIssueDate: ${isValidIssueDate}`;
+            const message = `Invalid Issue object. \nIssue: ${JSON.stringify(issue)}\n isValidRegistrationState: ${isValidRegistrationState} - isValidValidViolationCode: ${isValidValidViolationCode} - isValidIssueDate: ${isValidIssueDate}`;
             const error = new Error(message);
             log.error(error, location);
             throw error;
         }
+    }
+    
+    isValidCode(code) {
+        return code > 0 && code < 100 && code != 93 && code != 94;
     }
 
     formatIssue(issue) {
@@ -82,8 +98,8 @@ module.exports = class IssueWriteService {
         if (!!formattedIssue) {
             return formattedIssue;
         } else {
-            const error = new Error("Format error");
-            log.error(error, { location: 'IssueWriteService.validateIssue' });
+            const error = new Error(`Format error. \nIssue: ${JSON.stringify(issue)}`);
+            log.error(error, { location: 'IssueWriteService.formatIssue' });
             throw error;
         }  
     }
