@@ -1,6 +1,6 @@
 const Sync = require('./sync');
 const { WriteRepository } = require('../Repositories');
-const log = require('./log');
+const log = require('../Logger');
 
 const location = { location: 'index'};
 (async () => {

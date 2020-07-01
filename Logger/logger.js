@@ -1,7 +1,7 @@
 module.exports = class Logger {
 
     constructor(implementation) {
-        this.logger = chooseImplementation(implementation); 
+        this.logger = !!chooseImplementation(implementation) ? chooseImplementation(implementation) : console; 
     }
 
     /**
@@ -46,9 +46,11 @@ module.exports = class Logger {
 }
 
 const chooseImplementation = (implementation) => {
-    const impl = implementation || 'winston';
-    const config = require('config');
-    const IMPL_PATH = config.get(`${impl}.path`);
-    return require(IMPL_PATH);
+    if(!!implementation) {
+        const config = require('config');
+        const IMPL_PATH = config.has(`${implementation}.path`) ? config.get(`${implementation}.path`) : 'winston';
+        return require(IMPL_PATH);
+    } else return null;
+
 }
 

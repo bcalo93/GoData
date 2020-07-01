@@ -5,7 +5,7 @@ const QUEUE_SYNC_DB = Config.get('queue_sync_db.name');
 const QUEUE_TRANSFORMATION = Config.get('queue_transformation_go_data.name');
 const StateInfo = require('../../StateInfo');
 const { parseToDate, isValidDate } = require('../../GoDataSyncUtils/dateUtils');
-const log = require('../log');
+const log = require('../../Logger');
 
 module.exports = class IssueWriteService {
     constructor() {
