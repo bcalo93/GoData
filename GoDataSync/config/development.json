@@ -1,0 +1,49 @@
+{
+  "queue_sync_go_data": {
+    "name": "go-data-issues"
+  },
+  "queue_sync_db": {
+    "name": "db-sync"
+  },
+  "queue_transformation_go_data": {
+    "name": "go-data-transformations"
+  },
+  "redisConnection":{ "port": 6379, "host": "127.0.0.1" },
+  "axiosConfig": {
+      "baseURL": "http://localhost:1122",
+      "timeout": 1000
+  },
+  "stateInfo": {
+      "implementation": "./implementations/state-info-redis.js"
+  },
+  "dataConfig":{
+      "StaleSinceMinutes": 1,
+      "plates": {
+          "uri": "/statedata/plateType/",
+          "field": "plate_name",
+          "key": "SD:PLATES"
+      },
+      "states": {
+          "uri": "/statedata/state/",
+          "field": "state_name",
+          "key": "SD:STATES"
+      }
+  },
+  "logger": {
+    "implementation": "winston"
+  },
+  "winston" : {
+    "path": "./winston/winstonImpl.js",
+    "configuration": "./options/default.js",
+    "meta": {
+      "appName": "GoDataSync"
+    }
+  },
+  "write_repository": {
+    "name": "GoDataHistory",
+    "credentials": {
+      "user": "root",
+      "pass": "password"
+    }
+  }
+}

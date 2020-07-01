@@ -1,1 +1,0 @@
-db.getCollection('issuescodes').save({id: new ObjectId() ,violationCode: "X6", issues: [{date: new Date("2020-06-23"), count: 0}]})

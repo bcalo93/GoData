@@ -3,3 +3,6 @@ launch.json
 data1.csv
 data.csv
 NYCDataAgregator/loader/data-parking-issues.csv
+/MongoQueries
+
+**/logs/

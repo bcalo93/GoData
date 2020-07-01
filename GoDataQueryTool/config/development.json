@@ -1,0 +1,15 @@
+{
+  "logger": {
+    "implementation": "winston"
+  },
+  "winston" : {
+    "path": "./winston/winstonImpl.js",
+    "configuration": "./options/default.js",
+    "meta": {
+      "appName": "GoDataQueryTool"
+    }
+  },
+  "query_repository": {
+    "url": "mongodb://localhost:27017/go-data-query-tool"
+  }
+}

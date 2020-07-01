@@ -59,6 +59,36 @@ module.exports = {
         },
         watch: true,
         ignore_watch: "node_modules"
+      },
+      {
+        name: "GoDataSync",
+        script: "./index.js",
+        cwd: "./GoDataSync",
+        env: {
+          NODE_ENV: "development",
+        },
+        watch: true,
+        ignore_watch: "node_modules"
+      },
+      {
+        name: "GoDataSyncReports",
+        script: "./index.js",
+        cwd: "./GoDataSyncReports",
+        env: {
+          NODE_ENV: "development",
+        },
+        watch: true,
+        ignore_watch: "node_modules"
+      },
+      {
+        name: "StateData",
+        script: "./index.js",
+        cwd: "./StateData",
+        env: {
+          NODE_ENV: "development",
+        },
+        watch: true,
+        ignore_watch: "node_modules"
       }
     ]
   }

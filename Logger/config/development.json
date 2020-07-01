@@ -1,6 +1,0 @@
-{
-    "winston" : {
-        "path": "/winston/winstonImpl.js",
-        "configuration": "./options/default.js"
-    }
-}
