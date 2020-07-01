@@ -2,6 +2,7 @@ const filters = require('./../filters');
 const Queue = require('bull');
 const config = require('config');
 const SenderService = require('./serviceProvider')('SenderService');
+const log = require('./../log');
 
 const REDIS_CONNECTION = config.get('queues.redisConnection');
 const COMPLETED_NAME = config.get('queues.completed');
@@ -31,7 +32,7 @@ module.exports = class QueueFilterService {
                 const currentIndex = context.filters.findIndex(filter => filter.name === element.name);
                 element.filter(input, (error, result) => {
                     if (error) {
-                        console.log(`ERROR: ${error}`);
+                        log.error(error, { location: 'QueueFilterService.startFilterQueues.process' });
                         done(new Error(error));
                         return;
                     }
@@ -43,7 +44,12 @@ module.exports = class QueueFilterService {
                     
                     this.nextQueue(context, currentIndex).add({ input: result, context, timeStamp })
                         .then(() => done())
-                        .catch(err => done(err));
+                        .catch(err => {
+                            log.error(
+                                `Could not add to next queue ${JSON.stringify(context.filters[currentIndex])}`,
+                                { location: 'QueueFilterService.startFilterQueues.process.nextQueue.catch' });
+                            done(err);
+                        });
                 }, context.filters[currentIndex].options);
             });
         });
@@ -56,8 +62,7 @@ module.exports = class QueueFilterService {
                 await this.senderService.send(input, { context, timeStamp });
                 done();
             } catch(error) {
-                // TODO: Log Goes here
-                console.log(error);
+                log.error(error, { location: 'QueueFilterService.startDoneQueue.process' });
                 done(error);
             }
         });
@@ -77,15 +82,17 @@ module.exports = class QueueFilterService {
         const firstFilter = this.queueFilterList
             .find(element => element.name === context.filters[0].name);
         if (!firstFilter) {
-            // TODO Logging should goes here or just throw Custom exception.
-            console.log('First filter was not found.');
+            log.error(`First item of pipeline not found: ${context.filters[0].name}`,{
+                location: 'QueueFilterService.run' 
+            });
             return;
         }
         try {
             await firstFilter.queue.add(data);
         } catch(err) {
-            // TODO Logging should goes here or just throw Custom exception.
-            console.log(err);
+            log.error(`Could not start pipeline - Error: ${JSON.stringify(err)}`, {
+                location: 'QueueFilterService.run'
+            });
         }
     }
 }
