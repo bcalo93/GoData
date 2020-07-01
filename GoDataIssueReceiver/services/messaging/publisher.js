@@ -1,8 +1,6 @@
-const { EventEmitter } = require('events')
 
-module.exports = class AbstractPublisher extends EventEmitter {
+module.exports = class AbstractPublisher {
     constructor(channel) {
-        super()
         this.channel = channel
     }
     async publish(message) {

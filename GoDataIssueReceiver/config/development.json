@@ -18,7 +18,9 @@
         "host": "127.0.0.1",
         "port": 6379,
         "path": null,
-        "enable_offline_queue": true
+        "enable_offline_queue": true,
+        "maxRetriesPerRequest": null,
+        "enableReadyCheck": false
     },
     "recovery_chunk_size": 500,
     "logger": {
