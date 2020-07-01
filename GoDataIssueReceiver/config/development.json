@@ -30,7 +30,7 @@
         "path": "./winston/winstonImpl.js",
         "configuration": "./options/default.js",
         "meta": {
-            "appName": "GoDataSyncReports"
+            "app_name": "GoDataIssueReceiver"
         }
     }
 }

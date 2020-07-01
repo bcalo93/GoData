@@ -2,7 +2,7 @@ const config = require('config')
 const Publisher = require('./messaging/messaging')
 const publisher = new Publisher(config.get('queue_name'))
 const contingency = require('./contingency/messages-buffer')
-const log = require('../log');
+const log = require('../../Logger');
 const location = { location: 'issues-service' };
 
 

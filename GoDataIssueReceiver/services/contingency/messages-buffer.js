@@ -7,7 +7,7 @@ const readline = require('readline')
 const stream = require('stream')
 const issuesService = require('../issues-service')
 const pendingFile = './services/contingency/pending'
-const log = require('../../log');
+const log = require('../../../Logger');
 const location = { location: 'contingency' };
 
 module.exports = class Buffer {

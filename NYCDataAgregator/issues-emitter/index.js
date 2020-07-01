@@ -1,5 +1,5 @@
 const Sender = require('./sender');
-const log = require('../log');
+const log = require('../../Logger');
 
 const initialize = async () => {
     try {

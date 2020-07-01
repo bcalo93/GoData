@@ -1,5 +1,5 @@
 process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
-const log = require('./log');
+const log = require('../Logger');
 const location = { location: 'NYCDataAgregator.index' };
 const ConsumerRegistration = require('./consumer-registration/registration');
 const IssuesEmmiter = require('./issues-emitter');

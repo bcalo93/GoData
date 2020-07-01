@@ -28,12 +28,12 @@
     "db_query_max_regs": 200000,
     "logger": {
         "implementation": "winston"
-      },
-      "winston" : {
+    },
+    "winston" : {
         "path": "./winston/winstonImpl.js",
         "configuration": "./options/default.js",
         "meta": {
-          "appName": "GoDataSyncReports"
+            "app_name": "NYCDataAgregator"
         }
-      }
+    }
 }

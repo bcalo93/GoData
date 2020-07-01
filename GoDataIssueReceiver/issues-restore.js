@@ -1,4 +1,4 @@
-const log = require('./log');
+const log = require('../Logger');
 const location = { location: 'issues-restore' };
 
 

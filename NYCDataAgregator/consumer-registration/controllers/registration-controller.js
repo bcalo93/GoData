@@ -1,5 +1,5 @@
 const registration = require('../services/api-registration-service')
-const log = require('../../log');
+const log = require('../../../Logger');
 const location = { location: 'consumers-registration.controller' }
 
 const registerConsumer = async (req, res, next) => {

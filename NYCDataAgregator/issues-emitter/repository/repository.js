@@ -1,6 +1,6 @@
 const Config = require('config')
 const Sequelize = require('sequelize')
-const log = require('../../log');
+const log = require('../../../Logger');
 const location = { location: 'issues-emitter.repository' }
 
 module.exports = class Repository {

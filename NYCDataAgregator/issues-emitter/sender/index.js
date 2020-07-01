@@ -6,7 +6,7 @@ const timeStampFieldName = config.get('time_stamp_field_name')
 const fs = require('fs')
 const jwt = require('jsonwebtoken')
 const secretKey = fs.readFileSync('./config/security/private.key', 'utf8')
-const log = require('../../log');
+const log = require('../../../Logger');
 const location = { location: 'issues-emitter.sender' }
 
 module.exports = class Sender {

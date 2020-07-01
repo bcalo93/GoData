@@ -6,7 +6,7 @@ var https = require('https')
 const jwt = require('express-jwt');
 const fs = require('fs');
 const publicKey = fs.readFileSync('./security/public.key', 'utf8');
-const log = require('./log');
+const log = require('../Logger');
 const location = { location: 'issues-receiver' }
 
 const app = express()

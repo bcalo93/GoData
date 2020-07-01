@@ -2,12 +2,12 @@
     "port":1122,
     "logger": {
         "implementation": "winston"
-      },
+    },
     "winston" : {
         "path": "./winston/winstonImpl.js",
         "configuration": "./options/default.js",
-            "meta": {
-                "appName": "GoDataSyncReports"
-            }
+        "meta": {
+            "app_name": "StateData"
+        }
     }
 }

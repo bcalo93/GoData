@@ -1,6 +1,6 @@
 const config = require('config')
 const HttpService = require('./http-client')
-const log = require('../log');
+const log = require('../../Logger');
 const location = { location: 'register-api' };
 
 const registerApi = async() => {

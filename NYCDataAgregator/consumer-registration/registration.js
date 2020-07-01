@@ -2,7 +2,7 @@ const config = require('config')
 const express = require('express')
 const bodyParser = require('body-parser')
 const routes = require('./routes/routes')
-const log = require('../log');
+const log = require('../../Logger');
 const location = { location: 'consumers-registration.registration' }
 
 const app = express()

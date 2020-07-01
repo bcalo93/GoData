@@ -1,5 +1,5 @@
 const issuesService = require('../services/issues-service')
-const log = require('../log');
+const log = require('../../Logger');
 const location = { location: 'issues-controller' };
 
 const processIssues = async (req, res, next) => {
